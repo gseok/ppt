@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html> 
+<body> 
+<canvas width='500' height='400' id='canvas' style='border: 1px solid black'></canvas> 
+<script> 
+var canvas = document.getElementById('canvas'); 
+var ctx = canvas.getContext('2d'); 
+
+// line 1.
+ctx.fillStyle = "green";
+//ctx.beginPath();
+ctx.moveTo(50, 20);
+ctx.lineTo(100, 20);
+ctx.lineTo(100, 80);
+//ctx.closePath();
+ctx.fill();
+ctx.strokeStyle = "red";
+ctx.lineWidth = 5;
+ctx.stroke();
+
+// line 2.
+ctx.fillStyle = "blue";
+ctx.beginPath();
+//ctx.moveTo(250, 20);
+ctx.lineTo(300, 20);
+ctx.lineTo(300, 80);
+//ctx.closePath();
+ctx.fill();
+ctx.strokeStyle = "pink";
+ctx.lineWidth = 5;
+ctx.stroke();
+
+</script> 
+</body> 
+</html> 

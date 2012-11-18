@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+
+	<title>HTML5 Canvas Web Presentation</title>
+	
+	<!-- Required stylesheet -->
+	<link rel="stylesheet" href="./core/deck.core.css">
+	
+	<!-- Extension CSS files go here. Remove or add as needed. -->
+	<link rel="stylesheet" href="./extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="./extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="./extensions/navigation/deck.navigation.css">
+	<link rel="stylesheet" href="./extensions/status/deck.status.css">
+	<link rel="stylesheet" href="./extensions/hash/deck.hash.css">
+	<link rel="stylesheet" href="./extensions/scale/deck.scale.css">
+
+	<!-- Style theme. More available in /themes/style/ or create your own. -->
+	<link rel="stylesheet" id="style-theme-link" href="./themes/style/web-2.0.css">
+	
+	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
+	<link rel="stylesheet" id="transition-theme-link" href="./themes/transition/horizontal-slide.css">
+
+	<!-- Custom CSS -->
+	<!-- fixed ppt size -->
+	<link rel="stylesheet" href="./css/introduction.css">
+	<link rel="stylesheet" href="./css/common.css">
+	<link type="text/css" rel="stylesheet" href="./extensions/syntaxhighlighter3.0.83/styles/shCoreDefault.css">
+	<link type="text/css" rel="stylesheet" href="./extensions/jangle/jangle.css">
+	<!-- ace editor css-->
+	<style type="text/css" media="screen">
+    .editor { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 400px;
+    }
+	</style>
+
+	<!-- pre required js file-->
+	<script src="modernizr.custom.js"></script> <!-- Required Modernizr file -->
+	<script src="jquery-1.7.2.min.js"></script>
+	<script src="./extensions/ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script> <!-- ace editor -->
+	<script src="./extensions/amino/amino.js"></script>
+	<script>
+		// ace editor
+		function makeACEeditor(id) {
+			var editor = ace.edit(id);
+			editor.destroy();
+			editor.setTheme("ace/theme/clouds");
+			editor.getSession().setMode("ace/mode/javascript");
+			return editor;
+		}
+	</script>
+
+</head>
+<body class="introduction">
+
+<!-- header -->
+<header>
+<nav>
+	<h1>
+		<font color="white">Canvas Presentation</font>
+	</h1>
+	<div class="theme-menu">
+		<label for="style-themes">Style Theme:</label>
+		<select id="style-themes" onclick="seo()">
+			<option value="./themes/style/web-2.0.css">Web 2.0</option>
+			<option value="./themes/style/swiss.css">Swiss</option>
+			<option value="./themes/style/neon.css">Neon</option>
+			<option value="">None</option>
+		</select>
+		<label for="transition-themes">Transition Theme:</label>
+		<select id="transition-themes" onclick="seo2()">
+				<option value="./themes/transition/horizontal-slide.css">Horizontal Slide</option>
+				<option value="./themes/transition/vertical-slide.css">Vertical Slide</option>
+				<option value="./themes/transition/fade.css">Fade</option>
+				<option value="">None</option>
+		</select>
+	</div>
+</nav>
+</header>
+
+<!-- Begin slides. Just make elements with a class of slide. -->
+<article class="deck-container">
+<section class="slide" id="page1-start">
+	<img src="http://blog.teamtreehouse.com/wp-content/uploads/2012/08/html5-canvas.png" style="position:relative; top:50px; width:100%;">
+	<label style="position:absolute; z-index:1; right:60px; bottom:10%; text-align:right;"><font size=3><b>GyeongSeok Seo<br>
+	gseok.seo@gmail.com</b></font></label>
+</section>
+
+<section class="slide" id="page2-cover1">
+	<h1>Overview</h1>
+</section>
+
+<section class="slide" id="page3-overview">
+	<h2>Overview</h2>
+	<ul>
+		<li type="square">
+			Canvas is a 2D drawing API recently added to HTML and supported by most browsers.
+		</li>
+		<li type="square">
+			Draw anything you want directly in the web browser without the use of plugins like Flash or Java.
+		</li>
+		<li type="square">
+			screenshots give you just a taste of what is possible with Canvas
+		</li>
+	</ul>
+	<img src="http://joshondesign.com/p/books/canvasdeepdive/images/screenshot1.png">
+
+</section>
+
+<section class="slide" id="page4-what is Canvas">
+	<h2>What is Canvas?</h2>
+	<ul>
+		<li type="square">
+			Canvas is a 2D drawing API.
+		</li>
+		<li type="square">
+			Browser gives you a rectanglar area on the screen that you can draw into.
+		</li>
+		<li type="square">
+			You can draw lines, shapes, images, text; pretty much anything you want.
+		</li>
+	</ul>
+	<pre id="page3pre">
+<code>
+<span>&lt;html&gt; </span>
+<span>&lt;body&gt; </span>
+<span>&lt;canvas width='300' height='200' id='canvas'&gt;&lt;/canvas&gt; </span>
+<span>&lt;script&gt; </span>
+<span>var canvas = document.getElementById('canvas'); </span>
+<span>var c = canvas.getContext('2d'); </span>
+<span>c.fillStyle = 'red'; </span>
+<span>c.fillRect(25,25,200,150); </span>
+<span>&lt;/script&gt; </span>
+<span>&lt;/body&gt; </span>
+<span>&lt;/html&gt; </span>
+</code>
+	</pre>
+	<button onclick="run1()" id=page3Button>run</button>
+	<script>
+		function run1() {
+			if ( $("#page3Button").text() === "run" )
+			{
+				$("#page3pre > code").remove();
+				$("#page3pre > canvas").remove();
+				$("#page3pre").append(
+					"<canvas width='300' height='200' id='canvas' style='border: 1px solid black'></canvas>"
+				);
+				var canvas = document.getElementById('canvas'); 
+				var c = canvas.getContext('2d'); 
+				c.fillStyle = "red"; 
+				c.fillRect(25,25,200,150);
+				$("#page3Button").text("restore");
+			}
+			else if( $("#page3Button").text() === "restore" )
+			{
+				$("#page3pre").html(
+					"<code>"+
+					"<span>&lt;html&gt;</span><br>"+
+					"<span>&lt;body&gt;</span><br>"+
+					"<span>&lt;canvas width='300' height='200' id='canvas'&gt;&lt;/canvas&gt;</span><br>"+
+					"<span>&lt;script&gt;</span><br>"+
+					"<span>var canvas = document.getElementById('canvas');</span><br>"+
+					"<span>var c = canvas.getContext('2d');</span><br>"+
+					"<span>c.fillStyle = 'red';</span><br>"+
+					"<span>c.fillRect(25,25,200,150);</span><br>"+
+					"<span>&lt;/script&gt;</span><br>"+
+					"<span>&lt;/body&gt;</span><br>"+
+					"<span>&lt;/html&gt;</span><br>"+
+					"</code>"
+				);
+				$("#page3Button").text("run");
+			}
+		}
+	</script>
+</section>
+
+<section class="slide" id="page5-page3-what is Canvas">
+	<h2>What is Canvas?</h2>
+	<ul>
+		<li type="square">
+			<h4>Important to understand that Canvas is for drawing pixels.</h4>
+		</li>
+		<li type="square">
+			<h4>Doesn't have shapes or vectors.</h4>
+		</li>
+		<li type="square">
+			<h4>There are no objects to attach event handlers to.</h4>
+		</li>
+		<li type="square">
+			<h4>Just draws pixels to the screen.</h4>
+		</li>
+	</ul>
+	<h2>Which? What? When?</h2>
+	<ul>
+		<li type="square">
+			 <h4>For charts, graphs, dynamic diagrams, and of course video games, Canvas is a great choice.</h4>
+		</li>
+	</ul>
+</section>
+
+<section class="slide" id="page6-So where does it fit in with the rest of the web?">
+	<h2>So where does it fit in with the rest of the web?</h2>
+	<ul>
+		There are four ways to draw things on the web: Canvas, SVG, CSS, and direct DOM 
+	</ul>
+	<ul>
+		<li>
+			<h4>SVG:</h4> SVG is a vector API that draws shapes. Each shape has an object that you can attach event handlers to.
+		</li>
+		<li>
+			<h4>CSS:</h4> CSS is really about styling DOM elements. CSS will only affect the DOM area.
+		</li>
+		<li>
+			<h4>DOM:</h4> DOM or Document Object Model, defines an object for everything on the screen.
+		</li>
+	</ul>
+</section>
+
+<section class="slide" id="page7-Browser Support">
+	<h2>Browser Support</h2>
+	<p>
+		<a href="http://caniuse.com/#feat=canvas">http://caniuse.com/#feat=canvas</a>
+	</p>
+	<img src="./images/canvassupported01.jpg"></img>
+	<!--
+	<iframe src="http://caniuse.com/#feat=canvas" width="800" height="500">
+	</iframe>
+	-->
+</section>
+
+<section class="slide" id="page8-cover2">
+	<h1>Basic Drawing</h1>
+</section>
+
+<section class="slide" id="page9-Simple Drawing">
+	<h2>Simple Drawing</h2>
+	<p> Canvas is a simple 2D API.</p>
+	<ol>
+		<li>
+			Get a reference to a graphics context.
+		</li>
+		<li>
+			Set some properties, then draw something.
+		</li>
+	</ol>
+	<div id="simplerect" class='jangle'>
+		<canvas width="300" height="100" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3, var4) {
+				ctx.fillStyle = "red";
+				//x, y, width, height
+				ctx.fillRect(var1,var2,var3,var4);
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = { var1:20, var2:30, var3:40,  var4:50, };
+			tangle.setup("simplerect");
+		});
+	</script>
+<!-- syntaxhighlighter
+	<pre>
+		<code>
+			<canvas width='300' height='100' id='canvas1' style='border: 1px solid black'></canvas>
+			<script>
+				var canvas = document.getElementById('canvas1'); 
+				var ctx = canvas.getContext('2d'); 
+			    ctx.fillStyle = "red";
+			    ctx.fillRect(20, 30, 40, 50);
+			</script>
+		</code>
+		<script  type="syntaxhighlighter" class="brush: js highlight: [4]">
+			var canvas = document.getElementById('canvas'); 
+			var ctx = canvas.getContext('2d'); 
+		    ctx.fillStyle = "red";
+		    ctx.fillRect(20, 30, 40, 50);
+		</script>
+	</pre>
+-->
+</section>
+
+<section class="slide" id="page10-Simple Drawing">
+	<h2>Simple Drawing</h2>
+	<p> Canvas is a simple 2D API.</p>
+	<ol>
+		<li>
+			Get a reference to a graphics context.
+		</li>
+		<li>
+			Set some properties, then draw something.
+		</li>
+	</ol>
+	<div id="simple_triangle" class='jangle'>
+		<canvas width="300" height="100" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit2(ctx, var1, var2, var3) {
+				ctx.fillStyle = '#ccddff';
+				ctx.beginPath();
+				ctx.moveTo(50,20);
+				ctx.lineTo(200,50);
+				ctx.lineTo(var1,var2);
+				ctx.closePath();
+				ctx.fill();
+				ctx.strokeStyle = 'rgb(0,128,0)';
+				ctx.lineWidth = var3;
+				ctx.stroke();
+			}
+			var jangle2 = new Jangle();
+			jangle2.drawfun = drawit2;
+			jangle2.vars = { var1:150, var2:80, var3: 5};
+			jangle2.setup("simple_triangle");
+		});
+	</script>
+<!-- syntaxhighlighter
+	<pre>
+		<code>
+			<canvas width='300' height='100' id='canvas2' style='border: 1px solid black'></canvas>
+			<script> 
+				var canvas = document.getElementById('canvas2'); 
+				var ctx = canvas.getContext('2d'); 
+			    ctx.fillStyle = "#ccddff";
+			    ctx.beginPath();
+				ctx.moveTo(50, 20);
+			    ctx.lineTo(200, 50);
+			    ctx.lineTo(150, 80);
+			    ctx.closePath();
+				ctx.fill();
+			    ctx.strokeStyle = "rgb(0,128,0)";
+			    ctx.lineWidth = 5;
+			    ctx.stroke();
+			</script> 
+		</code>
+		<script  type="syntaxhighlighter" class="brush: js highlight: [7, 11]">
+			var canvas = document.getElementById('canvas'); 
+			var ctx = canvas.getContext('2d'); 
+		    ctx.fillStyle = "#ccddff";
+		    ctx.beginPath();
+		    ctx.moveTo(50, 20);
+		    ctx.lineTo(200, 50);
+		    ctx.lineTo(150, 80);
+		    ctx.closePath();
+		    ctx.fill();
+		    ctx.strokeStyle = "rgb(0,128,0)";
+		    ctx.lineWidth = 5;
+		    ctx.stroke();
+		</script>
+	</pre>
+-->
+</section>
+
+<section class="slide" id="page11-Paths">
+	<h2>Paths</h2>
+	<p>Canvas only directly supports the rectangle shape. To draw any other shape you must draw it yourself using a path.</p>
+	<ul>
+		<li>
+			Paths are shapes created by a bunch of straight or curved line segments.
+		</li>
+		<ol>
+			<li>
+				 In Canvas you must first define a path with <span style="color:red">beginPath()</span>.
+			</li>
+			<li>
+				 After then you can fill it, stroke it, or use it as a clip
+			</li>
+			<li>
+				Define each line segment with functions like <span style="color:blue">moveTo(), lineTo(), and	bezierCurveTo()</span>.
+			</li>
+		</ol>
+	</ul>
+	<div id="simple_curve" class='jangle'>
+		<canvas width="300" height="100" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit3(ctx, varcx1, varcy1, varcx2, varcy2) {
+				ctx.fillStyle = 'red';
+				ctx.beginPath();
+				ctx.moveTo(10,30);
+				ctx.bezierCurveTo(varcx1,varcy1,varcx2,varcy2,200,30);
+				ctx.lineTo(200,90);
+				ctx.lineTo(10,90);
+				ctx.closePath();
+				ctx.fill();
+				ctx.lineWidth = 4;
+				ctx.strokeStyle = 'black';
+				ctx.stroke();
+			}
+			var jangle3 = new Jangle();
+		    jangle3.drawfun = drawit3;
+		    jangle3.vars = { 
+				varcx1:  50, varcy1: 90, 
+		        varcx2: 159, varcy2: -30
+		    };
+			jangle3.setup("simple_curve");
+		});
+</script>
+<!-- syntaxhighlighter
+	<pre>
+		<code>
+			<canvas width='300' height='100' id='canvas3' style='border: 1px solid black'></canvas>
+			<script> 
+				var canvas = document.getElementById('canvas3'); 
+				var c = canvas.getContext('2d'); 
+				c.fillStyle = "red";
+				c.beginPath();
+				c.moveTo(10, 30);
+				c.bezierCurveTo(50, 90, 159, -30, 200, 30);
+				c.lineTo(200, 90);
+				c.lineTo(10, 90);
+				c.closePath();
+				c.fill();
+				c.lineWidth = 4;
+				c.strokeStyle = "black";
+				c.stroke();
+			</script> 
+		</code>
+		<script  type="syntaxhighlighter" class="brush: js highlight: [4]">
+			ctx.fillStyle = "red";
+			ctx.beginPath();
+			ctx.moveTo(10, 30);
+			ctx.bezierCurveTo(50, 90, 159, -30, 200, 30);
+			ctx.lineTo(200, 90);
+			ctx.lineTo(10, 90);
+			ctx.closePath();
+			ctx.fill();
+			ctx.lineWidth = 4;
+			ctx.strokeStyle = "black";
+			ctx.stroke();
+		</script>
+	</pre>
+-->
+</section>
+
+<section class="slide" id="page12-Coordinate System">
+	<h2>Coordinate System</h2>
+	<ul>
+		<li>
+			Canvas has the origin in the upper left corner with the y axis going down.
+		</li>
+		<li>
+			If you want a different origin you can do that with <span style="color:red">transforms</span>
+		</li>
+	</ul>
+	<img src="http://joshondesign.com/p/books/canvasdeepdive/images/coords.png" style="position:absolute;" />
+</section>
+
+<section class="slide" id="page13-Images">
+	<h2>Images</h2>
+	<ul>
+		<li>
+			Canvas can draw images with the <span style="color:blue">drawImage</span> function. 
+		</li>
+		<li>
+			Draw the image directly to the screen at normal scale, or stretch and slice.
+		</li>
+	</ul>
+	<div id="imagedemo" class='jangle'>
+		<canvas width="400" height="100" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+
+	<script type='text/javascript' class='bookscript'>
+		$(document).ready(function() {
+			var img = new Image();
+			img.onload = function() {
+				function drawit4(ctx,var1,var2,var3,var4,s1,s2,s3,s4,t1,t2) {
+					ctx.drawImage(img, t1,t2); //normal drawing
+					ctx.drawImage(
+						img, //draw stretched
+						0,0,48,48, //source (x,y,w,h)
+						var1,var2,var3,var4//destination (x,y,w,h)
+					);
+					ctx.drawImage(
+						img, //draw a slice
+				        s1,s2,s3,s4, //source coords (x,y,w,h)
+						250,0,250,100//destination coords (x,y,w,h)
+				    );
+				}
+			    var jangle = new Jangle();
+			    jangle.drawfun = drawit4;
+			    jangle.vars = {var1:100,var2:0,var3:70,var4:70,s1:20,s2:10,s3:20,s4:20,t1:0,t2:0};
+			    jangle.setup("imagedemo");
+			}
+			img.src = 'images/html5icon.png';
+		});
+	</script>
+</section>
+
+<section class="slide" id="page14-Images-spec">
+	<h2>Images - spec</h2>
+	  <p>This method can be invoked with three different sets of arguments:</p>
+
+  <ul class=brief><li><code title="">drawImage(<var title="">image</var>, <var title="">dx</var>, <var title="">dy</var>)</code>
+   </li><li><code title="">drawImage(<var title="">image</var>, <var title="">dx</var>, <var title="">dy</var>, <var title="">dw</var>, <var title="">dh</var>)</code>
+   </li><li><code title="">drawImage(<var title="">image</var>, <var title="">sx</var>, <var title="">sy</var>, <var title="">sw</var>, <var title="">sh</var>, <var title="">dx</var>, <var title="">dy</var>, <var title="">dw</var>, <var title="">dh</var>)</code>
+  </li></ul><!-- v3: drawImage() of an ImageData object might make sense (when resizing as well as filtering) - ack Charles Pritchard --><p>Each of those three can take either an
+  <code>HTMLImageElement</code>, an <code>HTMLCanvasElement</code>, or
+  an <code>HTMLVideoElement</code> for the <var title="">image</var>
+  argument.</p>
+
+  <dl class=domintro><dt><var title="">context</var> . <code title=dom-context-2d-drawImage><a href=#dom-context-2d-drawimage>drawImage</a></code>(<var title="">image</var>, <var title="">dx</var>, <var title="">dy</var>)</dt>
+   <dt><var title="">context</var> . <code title=dom-context-2d-drawImage><a href=#dom-context-2d-drawimage>drawImage</a></code>(<var title="">image</var>, <var title="">dx</var>, <var title="">dy</var>, <var title="">dw</var>, <var title="">dh</var>)</dt>
+   <dt><var title="">context</var> . <code title=dom-context-2d-drawImage><a href=#dom-context-2d-drawimage>drawImage</a></code>(<var title="">image</var>, <var title="">sx</var>, <var title="">sy</var>, <var title="">sw</var>, <var title="">sh</var>, <var title="">dx</var>, <var title="">dy</var>, <var title="">dw</var>, <var title="">dh</var>)</dt>
+
+   <dd>
+
+    <p>Draws the given image onto the canvas. The arguments are
+    interpreted as follows:</p>
+
+    <p><img alt="The sx and sy parameters give the x and y coordinates of the source rectangle; the sw and sh arguments give the width and height of the source rectangle; the dx and dy give the x and y coordinates of the destination rectangle; and the dw and dh arguments give the width and height of the destination rectangle." height=356 src=images/drawImage.png width=356></p>
+
+    <p>If the first argument isn't an <code>img</code>,
+    <code>canvas</code>, or <code>video</code> element, throws a
+    <code>TypeMismatchError</code> exception. If the image has no
+    image data, throws an <code>InvalidStateError</code> exception. If
+    the one of the source rectangle dimensions is zero, throws an
+    <code>IndexSizeError</code> exception. If the image isn't yet
+    fully decoded, then nothing is drawn.</p>
+
+   </dd>
+</section>
+
+<section class="slide" id="page15-Text">
+	<h2>Text</h2>
+	<ul>
+		<li>
+			Canvas can draw text as well. The <span style="color:red">font attribute</span> is the <span style="color:red">same as its CSS equivalent</span>, so you can set the styleg, size, and font family.
+		</li>
+		<li>
+			<span style="color:blue">fillText(string,x,y)</span> function draws using baseline of the text, not the top.
+		</li>
+	</ul>
+	<div id="textdemo" class='jangle'>
+		<canvas width="300" height="200" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3 ) {
+				ctx.fillStyle = "black";
+				ctx.font = "italic "+var1+"pt Arial ";
+				ctx.fillText("hello! this text be drawn using canvas", var2,var3);
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = {var1:50, var2:20, var3:150 };
+			tangle.setup("textdemo");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page16-Text-spec">
+	<h2>Text - spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-filltext">http://dev.w3.org/html5/2dcontext/#dom-context-2d-filltext</a></p>
+	<img src="./images/textspec01.jpg"/>
+	<p><span style="color:blue">measureText</span> must return the new TextMetrics object. TextMetrics have only <span style="color:pink">width</span> value.</p>
+</section>
+
+<section class="slide" id="page17-Gradients">
+	<h2>Gradients</h2>
+	<ul>
+		<li>
+			Canvas can also fill shapes with gradients.
+		</li>
+	</ul>
+	<div id="graddemo1" class='jangle'>
+		<canvas width="400" height="200" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3, var4) {
+				// start point (x0, y0) and end point (x1, y1)
+				var grad = ctx.createLinearGradient(var1,var2,var3,var4); 
+				grad.addColorStop(0, "red");
+				grad.addColorStop(0.3, "blue");
+				grad.addColorStop(0.7, "pink");
+				grad.addColorStop(1, "black");
+
+				ctx.fillStyle = grad;
+				ctx.fillRect(0,0,400,200);
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = {var1:0, var2:0, var3:200, var4:0};
+			tangle.setup("graddemo1");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page18-Gradients">
+	<h2>Gradients</h2>
+	<ul>
+		<li>
+			An important thing to notice here is that gradient is painted in the coordinate system.
+		</li>
+	</ul>
+	<div id="graddemo2" class='jangle'>
+		<canvas width="400" height="200" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3, var4) {
+				// start point (x0, y0) and end point (x1, y1)
+				var grad = ctx.createLinearGradient(var1,var2,var3,var4); 
+				grad.addColorStop(0, "red");
+				grad.addColorStop(0.3, "blue");
+				grad.addColorStop(0.7, "pink");
+				grad.addColorStop(1, "black");
+
+				ctx.fillStyle = grad;
+			    ctx.fillRect(100,100,400,200);
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = {var1:0, var2:0, var3:200, var4:0};
+			tangle.setup("graddemo2");
+		});
+</script>
+</section>
+
+<section class="slide" id="page19-Gradients-spec">
+	<h2>Gradients - spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-createlineargradient">http://dev.w3.org/html5/2dcontext/#dom-context-2d-createlineargradient</a></p>
+	<img src="./images/gradientsspec01.jpg"/>
+</section>
+
+<section class="slide" id="page20-cover3">
+	<h1>Making Charts</h1>
+</section>
+
+<section class="slide" id="page21-Create A New Page">
+	<h2>Making Charts</h2>
+	<h3>1. Create A New Page</h3>
+	<ul>
+		<li>
+			page above contains a canvas and script element.
+		</li>
+		<li>
+			<code>data</code> variable in the script tag is a set of data points that we will draw in the bar chart. 
+		</li>
+	</ul>
+	<pre class='wrap'>
+<code>&lt;html&gt;
+&lt;body&gt;
+&lt;canvas width=&quot;500&quot; height=&quot;500&quot; id=&quot;canvas-chart&quot;&gt;&lt;/canvas&gt;
+&lt;script&gt;
+
+var data = [ 16, 68, 20, 30, 54 ];
+
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</section>
+
+<section class="slide" id="page22-Create A New Page">
+	<h2>Making Charts</h2>
+	<h3>1. Create A New Page</h3>
+	<ul>
+		<li>
+			canvas and fill the background with gray.
+		</li>
+	</ul>
+	<!-- syntaxhighlighter -->
+	<pre style="height:auto">
+		<script  type="syntaxhighlighter" class="brush: js">
+			//get a reference to the canvas
+			var canvas = document.getElementById('canvas-chart');
+			//get a reference to the drawing context
+			var c = canvas.getContext('2d');
+			//draw
+			c.fillStyle = "gray";
+			c.fillRect(0,0,500,500);
+		</script>
+	</pre>
+</section>
+
+<section class="slide" id="page23-Create A New Page">
+	<h2>Making Charts</h2>
+	<h3>1. Create A New Page</h3>
+	<ul>
+		<li>
+			canvas and fill the background with gray.
+		</li>
+	</ul>
+	<code>
+		<canvas width="500" height="500" id="canvas-chart" style='border: 1px solid black'></canvas>
+		<script>
+			var data = [ 16, 68, 20, 30, 54 ];
+
+			//get a reference to the canvas
+			var canvas = document.getElementById('canvas-chart');
+			//get a reference to the drawing context
+			var c = canvas.getContext('2d');
+			//draw
+			c.fillStyle = "gray";
+			c.fillRect(0,0,500,500);
+		</script> 
+	</code>
+</section>
+
+<section class="slide" id="page24-Add Data">
+	<h2>Making Charts</h2>
+	<h3>2. Add Data</h3>
+	<button onclick="myeditorRun(editor1.getValue())">run</button>
+	<pre>
+		<div id="editor1" class="editor">
+		</div>
+	</pre>
+	<script>
+		var editor1 = makeACEeditor("editor1");
+		editor1.insert(
+		"var data = [ 16, 68, 20, 30, 54 ]; \n"+
+		"//get a reference to the canvas \n"+
+		"var canvas = document.getElementById('temp-canvas'); \n"+
+		"//get a reference to the drawing context \n"+
+		"var c = canvas.getContext('2d'); \n"+
+		"//draw\n"+
+		"c.fillStyle = 'gray'; \n"+
+		"c.fillRect(0,0,500,500); \n"+	
+		"//draw data \n"+
+		"c.fillStyle = 'blue';\n"+
+		"for(var i=0; i<data.length; i++) {\n"+
+		"	var dp = data[i];\n"+
+		"	c.fillRect(25 + i*100, 30, 50, dp*5);\n"+
+		"}"
+		);
+	</script>
+</section>
+
+<section class="slide" id="page25-Add Data - rect spec">
+	<h2>Making Charts</h2>
+	<h3>2. Add Data - rect spec</h3>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-fillrect">http://dev.w3.org/html5/2dcontext/#dom-context-2d-fillrect</a></p>
+	<img src="./images/fillrectspec01.jpg"/>
+</section>
+
+<section class="slide" id="page26-Add Data">
+	<h2>Making Charts</h2>
+	<h3>2. Add Data</h3>
+	<button onclick="myeditorRun(editor2.getValue())">run</button>
+	<pre>
+		<div id="editor2" class="editor">
+		</div>
+	</pre>
+	<script>
+		var editor2 = makeACEeditor("editor2");
+		editor2.insert(
+		"var data = [ 16, 68, 20, 30, 54 ]; \n"+
+		"//get a reference to the canvas \n"+
+		"var canvas = document.getElementById('temp-canvas'); \n"+
+		"//get a reference to the drawing context \n"+
+		"var c = canvas.getContext('2d'); \n"+
+		"//draw\n"+
+		"c.fillStyle = 'gray'; \n"+
+		"c.fillRect(0,0,500,500); \n"+	
+		"//draw data \n"+
+		"c.fillStyle = 'blue';\n"+
+		"for(var i=0; i<data.length; i++) {\n"+
+		"	var dp = data[i];\n"+
+		"   // changed !!------------------------------------\n"+
+		"	c.fillRect(25 + i*100, 500-dp*5 - 30 , 50, dp*5);\n"+
+		"}"
+		);
+	</script>
+</section>
+
+<section class="slide" id="page27-Add Line and Label">
+	<h2>Making Charts</h2>
+	<h3>3. Add Line and Label</h3>
+	<button onclick="myeditorRun(editor3.getValue())">run</button>
+	<pre>
+		<div id="editor3" class="editor">
+		</div>
+	</pre>
+	<script>
+		var editor3 = makeACEeditor("editor3");
+		editor3.insert(
+		"var data = [ 16, 68, 20, 30, 54 ]; \n"+
+		"//get a reference to the canvas \n"+
+		"var canvas = document.getElementById('temp-canvas'); \n"+
+		"//get a reference to the drawing context \n"+
+		"var c = canvas.getContext('2d'); \n"+
+		"//draw\n"+
+		"c.fillStyle = 'gray'; \n"+
+		"c.fillRect(0,0,500,500); \n"+	
+		"//draw data \n"+
+		"c.fillStyle = 'blue';\n"+
+		"for(var i=0; i<data.length; i++) {\n"+
+		"	var dp = data[i];\n"+
+		"	c.fillRect(25 + i*100, 500-dp*5 - 30 , 50, dp*5);\n"+
+		"}\n"+
+		"//draw axis lines\n"+
+		"c.fillStyle = 'black';\n"+
+		"c.lineWidth = 2.0;\n"+
+		"c.beginPath();\n"+
+		"c.moveTo(30,10);\n"+
+		"c.lineTo(30,460);\n"+
+		"c.lineTo(490,460);\n"+
+		"c.stroke();\n"+
+		"//draw text and vertical lines\n"+
+		"c.fillStyle = 'black';\n"+
+		"for(var i=0; i<6; i++) {\n"+
+		"	c.fillText((5-i)*20 + '',4, i*80+60);\n"+
+		"	c.beginPath();\n"+
+		"	c.moveTo(25,i*80+60);\n"+
+		"	c.lineTo(30,i*80+60);\n"+
+		"	c.stroke();\n"+
+		"}\n"+
+		"var labels = ['JAN','FEB','MAR','APR','MAY'];\n"+
+		"//draw horiz text\n"+
+		"for(var i=0; i<5; i++) {\n"+
+		"	c.fillText(labels[i], 50+ i*100, 475);\n"+
+		"}\n"
+		);
+	</script>
+</section>
+
+<section class="slide" id="page28-Add Line and Label - fixed position and color">
+	<h2>Making Charts</h2>
+	<h3>3. Add Line and Label - fixed position and color</h3>
+	<button onclick="myeditorRun(editor4.getValue())">run</button>
+	<pre>
+		<div id="editor4" class="editor">
+		</div>
+	</pre>
+	<script>
+		var editor4 = makeACEeditor("editor4");
+		editor4.insert(
+		"var data = [ 16, 68, 20, 30, 54 ]; \n"+
+		"//get a reference to the canvas \n"+
+		"var canvas = document.getElementById('temp-canvas'); \n"+
+		"//get a reference to the drawing context \n"+
+		"var c = canvas.getContext('2d'); \n"+
+		"//draw\n"+
+		"c.fillStyle = 'white'; \n"+
+		"c.fillRect(0,0,500,500); \n"+	
+		"//draw data \n"+
+		"c.fillStyle = 'blue';\n"+
+		"for(var i=0; i<data.length; i++) {\n"+
+		"	var dp = data[i];\n"+
+		"	c.fillRect(40 + i*100, 460-dp*5 , 50, dp*5);\n"+
+		"}\n"+
+		"//draw axis lines\n"+
+		"c.fillStyle = 'black';\n"+
+		"c.lineWidth = 2.0;\n"+
+		"c.beginPath();\n"+
+		"c.moveTo(30,10);\n"+
+		"c.lineTo(30,460);\n"+
+		"c.lineTo(490,460);\n"+
+		"c.stroke();\n"+
+		"//draw text and vertical lines\n"+
+		"c.fillStyle = 'black';\n"+
+		"for(var i=0; i<6; i++) {\n"+
+		"	c.fillText((5-i)*20 + '',4, i*80+60);\n"+
+		"	c.beginPath();\n"+
+		"	c.moveTo(25,i*80+60);\n"+
+		"	c.lineTo(30,i*80+60);\n"+
+		"	c.stroke();\n"+
+		"}\n"+
+		"var labels = ['JAN','FEB','MAR','APR','MAY'];\n"+
+		"//draw horiz text\n"+
+		"for(var i=0; i<5; i++) {\n"+
+		"	c.fillText(labels[i], 50+ i*100, 475);\n"+
+		"}\n"
+		);
+	</script>
+</section>
+
+<section class="slide"  id="page29-Piechart">
+	<h2>Making Charts</h2>
+	<h3>Piechart</h3>
+	<button onclick="myeditorRun(editor5.getValue())">run</button>
+	<pre>
+		<div id="editor5" class="editor">
+		</div>
+	</pre>
+	<script>
+		var editor5 = makeACEeditor("editor5");
+		editor5.insert(
+		"var data = [ 100, 68, 20, 30, 100 ]; \n"+
+		"//get a reference to the canvas \n"+
+		"var canvas = document.getElementById('temp-canvas'); \n"+
+		"//get a reference to the drawing context \n"+
+		"var c = canvas.getContext('2d'); \n"+
+		"//draw background\n"+
+		"c.fillStyle = 'white'; \n"+
+		"c.fillRect(0,0,500,500); \n"+
+		"//a list of colors \n"+
+		"var colors = [ 'orange', 'green', 'blue', 'yellow', 'teal']; \n"+
+		"//calculate total of all data \n"+
+		"var total = 0; \n"+
+		"for(var i=0; i<data.length; i++) { \n"+
+		"	total += data[i]; \n"+
+		"} \n"+
+		"//draw pie data \n"+
+		"var prevAngle = 0; \n"+
+		"for(var i=0; i<data.length; i++) { \n"+
+		"	//fraction that this pieslice represents \n"+
+		"	var fraction = data[i]/total; \n"+
+		"	//calc starting angle \n"+
+		"	var angle = prevAngle + fraction*Math.PI*2; \n"+
+		"	//draw the pie slice \n"+
+		"	c.fillStyle = colors[i]; \n"+
+		"	//create a path \n"+
+		"	c.beginPath(); \n"+
+		"	c.moveTo(250,250); \n"+
+		"	c.arc(250,250, 100, prevAngle, angle, false); \n"+
+		"	c.lineTo(250,250); \n"+
+		"	//fill it \n"+
+		"	c.fill(); \n"+
+		"	//stroke it \n"+
+		"	c.strokeStyle = 'black'; \n"+
+		"	c.stroke(); \n"+
+		"	//update for next time through the loop \n"+
+		"	prevAngle = angle; \n"+
+		"} \n"+
+		"//draw centered text \n"+
+		"c.fillStyle = 'black'; \n"+
+		"c.font = '24pt sans-serif'; \n"+
+		"var text = 'Sales Data from 2025'; \n"+
+		"var metrics = c.measureText(text); // using measureText - width\n"+
+		"c.fillText(text, 250-metrics.width/2, 400); // center calcul\n"
+		);
+	</script>
+
+</section>
+
+<section class="slide" id="page30-paths-spec">
+	<h2>Paths-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc">http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc</a></p>
+	<img src="./images/arcspec01.jpg"/>
+</section>
+
+<section class="slide" id="page31-paths-spec">
+	<h2>Paths-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc">http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc</a></p>
+	<img src="./images/arcTo1.png"/>
+</section>
+<section class="slide" id="page32-paths-spec">
+	<h2>Paths-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc">http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc</a></p>
+	<img src="./images/arcTo2.png"/>
+</section>
+<section class="slide" id="page33-paths-spec">
+	<h2>Paths-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc">http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc</a></p>
+	<img src="./images/arcTo3.png"/>
+</section>
+<section class="slide" id="page34-paths-spec">
+	<h2>Paths-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc">http://dev.w3.org/html5/2dcontext/#dom-context-2d-arc</a></p>
+	<img src="./images/arc1.png"/>
+</section>
+
+<section class="slide" id="page35-arctest">
+	<h2>ArcTo Drawing</h2>
+	<div id="simplearcto" class='jangle'>
+		<canvas width="300" height="100" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3, var4, var5, var6, var7, var8) {
+				ctx.clearRect(0,0,300,100);
+				ctx.fillStyle = "white";
+				ctx.fillRect(0,0,300,100);
+				ctx.moveTo(var1,var2);
+				ctx.arcTo(var3,var4,var5,var6,var7);
+				ctx.strokeStyle = 'green';
+				ctx.lineWidth = var8;
+				ctx.stroke();
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = { var1:10, var2:10, var3:290,  var4:10, var5:290, var6:80, var7:50, var8:2};
+			tangle.setup("simplearcto");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page36-arctest">
+	<h2>Arc Drawing</h2>
+	<div id="simplearc" class='jangle'>
+		<canvas width="300" height="100" style='border: 1px solid black'></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3, var4, var5, var6, var7, var8) {
+				ctx.clearRect(0,0,300,100);
+				ctx.fillStyle = "white";
+				ctx.fillRect(0,0,300,100);
+				ctx.moveTo(var1,var2);
+				ctx.arc(var3,var4,var5,var6,var7);
+				ctx.strokeStyle = 'green';
+				ctx.lineWidth = var8;
+				ctx.stroke();
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = { var1:150, var2:50, var3:150,  var4:50, var5:40, var6:0, var7:0.1, var8:2};
+			tangle.setup("simplearc");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page37-cover4">
+	<h1>Advanced Drawing and Events</h1>
+</section>
+
+<section class="slide" id="page38-ImageData">
+	<h2>ImageData</h2>
+	<h3>getImageData / putImageData</h3>
+	<p>cross-origin problem</p>
+	<ul>
+		<li>filefox : netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");</li>
+		<li>
+			<del>chorme : --allow-file-access-from-files</del>
+		</li>
+	</ul>
+	<canvas style='border: 1px solid black' id="canvasImageData1"></canvas>
+	<input type="text" value="" readonly="readonly" id="input1"></input>
+	<style type="text/css">
+		#input1 {
+			position:absolute;
+			height: 50px;
+			top: 90px;
+			left: 600px;
+		}
+	</style>
+	<script>
+		var canvas = document.getElementById('canvasImageData1'); 
+		var ctx = canvas.getContext('2d');
+		var objImageData = null;
+
+		var img = new Image();
+
+		function printRGB() {
+			if ( objImageData == null ) {
+				$("#input1").val('RGB value');
+			} else {
+				console.log('test');
+				$("#input1").val("Pixel an (0,0): rgba("+objImageData.data[4]+","+objImageData.data[5]+","+objImageData.data[6]+","+objImageData.data[6]+")");
+			}
+		}
+
+		function loadimg() {
+			img.onload = function() {
+				ctx.canvas.width = img.width;
+				ctx.canvas.height = img.height;
+				ctx.drawImage( img, 0, 0 );
+				try {
+					try { 
+						objImageData = ctx.getImageData(0, 0, img.width, img.height)  
+					} catch (e) { 
+						netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+						objImageData = ctx.getImageData(0, 0, img.width, img.height) 
+					}
+				} catch (e) {
+					throw new Error("unable to access image data: " + e)
+				} finally {
+					printRGB();
+				}
+			}
+			img.src = "./images/html5icon2.png";
+		}
+
+		function putImageTest() {
+			if ( objImageData == null ) {
+				alert("unable to access image data - cross-origin data");
+			} else {
+				// image processing
+                for (var i = 0, len = objImageData.data.length; i < len; i += 4) {
+                  objImageData.data[i + 0] = 255 - objImageData.data[i + 0];
+                  objImageData.data[i + 1] = 255 - objImageData.data[i + 1];
+                  objImageData.data[i + 2] = 255 - objImageData.data[i + 2];
+                }
+ 
+				// redraw manipulated image
+				ctx.putImageData(objImageData, 0, 0, 0, 0, img.width, img.height);
+			}
+			printRGB();
+		}
+		loadimg();
+	</script>
+	<div style="position:absolute; top:205px; left:380px; width:50%; height:100px;">
+		<pre class="brush: js; ruler: true;">
+			var canvas = document.getElementById('canvas-ImageData1'); 
+			var ctx = canvas.getContext('2d');
+			var objImageData;
+
+			var img = new Image();
+			img.onload = function() {
+				ctx.canvas.width = img.width;
+			    ctx.canvas.height = img.height;
+				ctx.drawImage( img, 0, 0 );
+
+				try {
+					try { 
+						objImageData = ctx.getImageData(0, 0, img.width, img.height)  
+					} catch (e) { 
+						netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+						objImageData = ctx.getImageData(0, 0, img.width, img.height) 
+					}
+				} catch (e) {
+					throw new Error("unable to access image data: " + e)
+				}
+			}
+			img.src = "./images/html5icon2.png";
+ 
+			alert("Pixel an (0,0): rgba("+objImageData.data[4]+", "+objImageData.data[5]+", "+objImageData.data[6]+","+objImageData.data[6]+")");
+		</pre>
+	</div>
+	<style type="text/css">
+		#putimgbt1 {
+			position:absolute;
+			top: 90px;
+			left: 480px;
+		}
+	</style>
+	<button onclick="putImageTest()" id="putimgbt1">putImageData</button>
+</section>
+
+<section class="slide" id="page39-ImageData-spec">
+	<h2>ImageData-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#pixel-manipulation">http://dev.w3.org/html5/2dcontext/#pixel-manipulation</a></p>
+	<img src="./images/imagedataspec01.jpg"/>
+</section>
+
+<section class="slide" id="page40-imagepattern">
+	<h2>Image Pattern</h2>
+	<ul>
+		<li>
+			Canvas is supported pattern using <span style="color:blue">createPattern</span> method.
+		</li>
+		<li>
+			You can control how the pattern is repeated the same as you would with background images in CSS.
+		</li>
+	</ul>
+	<img src="./images/tile.png" style="position:absolute; left:500px; border: 1px solid black;" alt="original image"></img>
+	<label style="position:absolute; left:500px; top:220px;">original image</label>
+	<div id="imagefill" class='jangle'>
+		<canvas width="400" height="100" style='border: 1px solid black'></canvas>
+		<pre></pre>
+	    <div class='popup shadow'>000</div>
+	</div>
+
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+		    var img = new Image();
+
+		    function drawit(ctx, var1, var2, var3, var4) {
+				var pat1 = ctx.createPattern(img,'repeat');    
+				ctx.fillStyle = pat1;
+				ctx.fillRect(var1,0,var2,100);    
+
+				var pat2 = ctx.createPattern(img,'repeat-y');    
+				ctx.fillStyle = pat2;
+				ctx.translate(200,0);
+				ctx.fillRect(var3,0,var4,100);    
+		    }
+    
+			img.onload = function() {
+			    console.log('image was loaded');
+			    var tangle = new Jangle();
+			    tangle.drawfun = drawit;
+			    tangle.vars = { var1:0, var2:100, var3:0, var4:100 };
+			    tangle.setup("imagefill");
+			};
+
+			console.log('setting up the smile stuff ' + img);
+			img.src = './images/tile.png';
+		});
+	</script>
+</section>
+
+<section class="slide" id="page41-imagepattern-spec">
+	<h2>Image Pattern-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-createpattern">http://dev.w3.org/html5/2dcontext/#dom-context-2d-createpattern</a></p>
+	<img src="./images/imagepatternspec01.jpg"/>
+</section>
+
+<section class="slide" id="page42-opacity">
+	<h2>Opacity</h2>
+	<ul>
+		<li>
+			The Canvas API lets you control the opacity of any drawing function with the <span style="color:blue">globalAlpha</span> property.
+		</li>
+		<li>
+			The globalAlpha property must be a <span style="color:orange">value between 0 and 1</span> or else it will be ignored (or may unexpected behavior on some platforms).
+		</li>
+	</ul>
+	<div id="opacitydemo" class='jangle'>
+		<canvas width="400" height="100"></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+		    function drawit(ctx, var1, var2, var3, var4) {
+				ctx.fillStyle = 'red';
+				//divide by 100 to get a fraction between 0 and 1
+				ctx.globalAlpha = var1/100; 
+				ctx.fillRect(0,0,50,50);
+				ctx.globalAlpha = var2/100;
+				ctx.fillRect(25,25,50,50);
+				ctx.globalAlpha = 1.0;
+		    }
+
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = {var1:50, var2: 30};
+			tangle.setup("opacitydemo");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page43-opacity-spec">
+	<h2>Opacity-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-globalalpha">http://dev.w3.org/html5/2dcontext/#dom-context-2d-globalalpha</a></p>
+	<img src="./images/compositingspec01.jpg"/>
+</section>
+
+<section class="slide" id="page44-Transforms">
+	<h2>Transforms</h2>
+	<ul>
+		<li>
+			Like many 2D APIs, Canvas has support for the standard translate, rotate, and scale transforms.
+		</li>
+	</ul>
+	<div id="rotatedemo" class='jangle'>
+		<canvas width="400" height="200"></canvas>
+	    <pre></pre>
+		<div class='popup shadow'>000</div>
+	</div>
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, x1, y1, rot1, x2, y2) {
+				ctx.fillStyle = "red";
+				// translate
+				ctx.translate(x1,y1);
+				var rads = rot1 * Math.PI*2.0/360.0;
+				// rotate
+				ctx.rotate(rads);
+				// scale
+				ctx.scale(x2,y2);
+				ctx.fillRect(0,0,100,100);
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = {x1:50,y1:50,rot1:0,x2:1,y2:1};
+			tangle.setup("rotatedemo");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page45-Transforms-spec">
+	<h2>Transforms-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-translate">http://dev.w3.org/html5/2dcontext/#dom-context-2d-translate</a></p>
+	<img src="./images/transformspec01.jpg"/>
+</section>
+
+<section class="slide" id="page46-StateSaving">
+	<h2>State</h2>
+	<ul>
+		<li>
+			The context2D object represents the current drawing state.
+		</li>
+		<li>
+			The state includes the current transform, the fill and stroke colors, the current font, and a few other variables.
+		</li>
+		<li>
+			You can save this state by pushing it onto a stack using the <span style="color:blue">save()</span> function. restore to the previous state with the <span style="color:blue">restore()</span> function.
+		</li>
+	</ul>
+	<button onclick="saveStateTest('statedemo')">save()</button>
+	<button onclick="restoreStateTest('statedemo')">restore()</button>
+	<button onclick="testDraw('statedemo','1')">draw1</button>
+	<button onclick="testDraw('statedemo','2')">draw2</button>
+	<button onclick="testDraw('statedemo','3')">draw3</button>
+	<button onclick="testDraw('statedemo','4')">draw4</button>
+	<button onclick="testDraw('statedemo','5')">draw5</button>
+	<button onclick="testDraw('statedemo','6')">draw6</button>
+	<button onclick="testDraw('statedemo','7')">clear</button>
+	<div id="statedemo">
+		<canvas width="350" height="180" style='border: 1px solid black; position:absolute; top:260px;'></canvas>
+	</div>
+	<div style="position:absolute; top:245px; left:410px; width:350px; height:290px;">
+		<pre class="brush: js; ruler: true;">
+		function testDraw(id, num) {
+			var ctx = $("#"+id+" > canvas")[0].getContext('2d');
+
+			switch( num ) {
+			case '1':
+				ctx.fillStyle = '#FA6900';
+				ctx.shadowOffsetX = 5;
+				ctx.shadowOffsetY = 5;
+				ctx.shadowBlur    = 4;
+				ctx.shadowColor   = 'rgba(204, 204, 204, 0.5)';
+				ctx.fillRect(10,10,15,150);
+				break;
+			case '2':
+				ctx.fillStyle = '#E0E4CD';
+				ctx.shadowOffsetX = 10;
+				ctx.shadowOffsetY = 10;
+				ctx.shadowBlur    = 4;
+				ctx.shadowColor   = 'rgba(204, 204, 204, 0.5)';
+				ctx.fillRect(40,10,30,150);
+				break;
+			case '3':
+				ctx.fillStyle = '#A7DBD7';
+				ctx.shadowOffsetX = 15;
+				ctx.shadowOffsetY = 15;
+				ctx.shadowBlur    = 4;
+				ctx.shadowColor   = 'rgba(204, 204, 204, 0.5)';
+				ctx.fillRect(100,10,45,150);
+				break;
+			case '4':
+				ctx.beginPath();
+				ctx.arc(195, 85, 22, 0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				break;
+			case '5':
+				ctx.beginPath();
+				ctx.arc(270, 85, 15, 0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				break;
+			case '6':
+				ctx.beginPath();
+				ctx.arc(315, 85, 8, 0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				break;
+			default:
+				//ctx.clearRect(0, 0, 350, 180);
+				ctx.fillStyle = 'white';
+				ctx.fillRect(0,0,350,180);
+				break;
+			}
+		}
+		function saveStateTest(id) {
+			var ctx = $("#"+id+" > canvas")[0].getContext('2d');
+			ctx.save();
+		}
+		function restoreStateTest(id) {
+			var ctx = $("#"+id+" > canvas")[0].getContext('2d');
+			ctx.restore();
+		}
+		function initStateDemo() {
+			var ctx = $("#statedemo > canvas")[0].getContext('2d');
+			ctx.fillStyle = 'white';
+			ctx.fillRect(0,0,350,180);
+		}
+		initStateDemo();
+		</pre>
+	</div>
+	<font size=1>reference : http://html5.litten.com/understanding-save-and-restore-for-the-canvas-context/</font>
+	<script type="text/javascript">
+		function testDraw(id, num) {
+			var ctx = $("#"+id+" > canvas")[0].getContext('2d');
+
+			switch( num ) {
+			case '1':
+				ctx.fillStyle = '#FA6900';
+				ctx.shadowOffsetX = 5;
+				ctx.shadowOffsetY = 5;
+				ctx.shadowBlur    = 4;
+				ctx.shadowColor   = 'rgba(204, 204, 204, 0.5)';
+				ctx.fillRect(10,10,15,150);
+				break;
+			case '2':
+				ctx.fillStyle = '#E0E4CD';
+				ctx.shadowOffsetX = 10;
+				ctx.shadowOffsetY = 10;
+				ctx.shadowBlur    = 4;
+				ctx.shadowColor   = 'rgba(204, 204, 204, 0.5)';
+				ctx.fillRect(40,10,30,150);
+				break;
+			case '3':
+				ctx.fillStyle = '#A7DBD7';
+				ctx.shadowOffsetX = 15;
+				ctx.shadowOffsetY = 15;
+				ctx.shadowBlur    = 4;
+				ctx.shadowColor   = 'rgba(204, 204, 204, 0.5)';
+				ctx.fillRect(100,10,45,150);
+				break;
+			case '4':
+				ctx.beginPath();
+				ctx.arc(195, 85, 22, 0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				break;
+			case '5':
+				ctx.beginPath();
+				ctx.arc(270, 85, 15, 0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				break;
+			case '6':
+				ctx.beginPath();
+				ctx.arc(315, 85, 8, 0, Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				break;
+			default:
+				//ctx.clearRect(0, 0, 350, 180);
+				ctx.fillStyle = 'white';
+				ctx.fillRect(0,0,350,180);
+				break;
+			}
+		}
+		function saveStateTest(id) {
+			var ctx = $("#"+id+" > canvas")[0].getContext('2d');
+			ctx.save();
+		}
+		function restoreStateTest(id) {
+			var ctx = $("#"+id+" > canvas")[0].getContext('2d');
+			ctx.restore();
+		}
+		function initStateDemo() {
+			var ctx = $("#statedemo > canvas")[0].getContext('2d');
+			ctx.fillStyle = 'white';
+			ctx.fillRect(0,0,350,180);
+		}
+		initStateDemo();
+	</script>
+</section>
+
+<section class="slide" id="page47-StateSaving-spec">
+	<h2>State-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-save">http://dev.w3.org/html5/2dcontext/#dom-context-2d-save</a></p>
+	<img src="./images/statespec01.jpg"/>
+</section>
+
+<section class="slide" id="page48-Clipping">
+	<h2>Clipping</h2>
+	<ul>
+		<li>Draw just part of a shape. You can do this with the <span style="color:blue">clip</span> function.</li>
+		<li>Drawing will only happen <code>inside</code> of the clip. Anything you draw <code>outside</code> of the clip will not be shown on screen.</li>
+	</ul>
+	<div id="clippingdemo" class='jangle'>
+	    <canvas width="400" height="200" style='position:absolute; z-index:1; left:300px; top:16px; border: 1px solid black'></canvas>
+		<pre></pre>
+	    <div class='popup shadow'>000</div>
+	</div>
+	<script type="text/javascript" class='bookscript'>
+		$(document).ready(function() {
+			function drawit(ctx, var1, var2, var3) {
+				// draw rect the first time
+				ctx.fillStyle = 'red';
+				ctx.fillRect(0,0,400,100);
+
+				// create triangle path
+				ctx.beginPath();
+				ctx.moveTo(200,var1);
+				ctx.lineTo(250,150);
+				ctx.lineTo(150,150);
+				ctx.closePath();
+
+				// stroke the triangle so we can see it
+				ctx.lineWidth = 10;
+				ctx.stroke();
+
+				// use triangle as clip, 
+				ctx.clip();
+				//fill rect in again with yellow
+				ctx.fillStyle = 'yellow';
+				ctx.fillRect(0,0,400,100);
+			}
+			var tangle = new Jangle();
+			tangle.drawfun = drawit;
+			tangle.vars = {var1:50};
+			tangle.setup("clippingdemo");
+		});
+	</script>
+</section>
+
+<section class="slide" id="page49-Clipping-spec">
+	<h2>Clipping-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#clipping-region">http://dev.w3.org/html5/2dcontext/#clipping-region</a></p>
+	<img src="./images/clipspec01.jpg"/>
+</section>
+
+<section class="slide" id="page50-Event">
+	<h2>Event</h2>
+	<ul>
+		<li>Canvas doesn't define any new events.</li>
+		<li>The <span style="color:orange">Canvas just looks like a rectangular area</span> of pixels to the rest of the browser. The <span style="color:orange">browser doesn't know</span> about any <span style="color:orange">shapes</span> you've drawn.</li>
+		<li>Events to the canvas as a whole.</li>
+		<li>If you want to do special things then that Calculating and converting the raw mouse event.</li>
+		<li>Canvas has an API to help: <code style="color:blue">isPointInPath.</code> This function will tell you if a given coordinate is inside of the current path.</li>
+	</ul>
+	<pre><code>c.beginPath();
+c.arc(
+    100,100, 40,  //40 pix radius circle at 100,100
+    0,Math.PI*2,  //0 to 360 degrees for a full circle
+);
+c.closePath();
+var a = c.isPointInPath(80,0);     // returns true
+var b = c.isPointInPath(200,100);  // returns false</code></pre>
+</section>
+
+<section class="slide" id="page51-Event-spec">
+	<h2>Event-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#hit-region">http://dev.w3.org/html5/2dcontext/#hit-region</a></p>
+	<ul>
+		<li>Canvas v5 API additions.</li>
+		<li><a href="http://www.w3.org/wiki/Canvas_hit_testing">http://www.w3.org/wiki/Canvas_hit_testing</a></li>
+	</ul>
+	<img src="./images/eventspec01.jpg"/>
+</section>
+
+<section class="slide" id="page52-Event">
+	<h2>Event</h2>
+	<ul>
+		<li>Hit test (<span style="color:blue">addHitRegion</span>)</li>
+	</ul>
+	<img src="./images/addHitRegion01.jpg" style="position:absolute; border: 1px solid black; top:105px;" height="220px"></img>
+	<img src="./images/addHitRegion02.jpg" style="position:absolute; border: 1px solid black; top:330px;" height="220px"></img>
+<!-- currently not supported 
+	<div>
+		<canvas id="hittestdemo" width="400" height="200" style='border: 1px solid black;'></canvas>
+	</div>
+	<script type="text/javascript">
+		function hitTest() {
+			var canvas = document.getElementById("hittestdemo");
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = 'white';
+			ctx.fillRect(0,0,400,200);
+			ctx.addHitRegion({ id: 'The First Button' });
+
+			ctx.beginPath();
+			ctx.rect(120,10,100,100);
+			ctx.fillStyle = 'blue';
+			ctx.fill();
+			ctx.addHitRegion({ id: 'The Second Button' });
+			$("#hittestdemo > canvas")[0].onclick = function (event) {
+				if (event.region) {
+					alert('You clicked ' + event.region);
+				}
+			}
+		}
+		hitTest();
+	</script>
+-->
+</section>
+
+<section class="slide" id="page53-Event-spec2">
+	<h2>Event-spec</h2>
+	<p><a href="http://dev.w3.org/html5/2dcontext/#dom-context-2d-ispointinpath">http://dev.w3.org/html5/2dcontext/#dom-context-2d-ispointinpath</a></p>
+	<img src="./images/eventspec02.jpg"/>
+</section>
+
+<section class="slide" id="page54-Event">
+	<h2>Event</h2>
+	<ul>
+		<li>Hit test (<span style="color:blue">isPointInPath</span>)</li>
+	</ul>
+	<div>
+		<canvas id="hittestdemo2" width="300" height="200" style='border: 1px solid black;'></canvas>
+	</div>
+	<label id="hitpos" style="position:absolute; top:125px; left:60px;"></label>
+	<div style="position:absolute; top:105px; left:360px; width:400px; height:400px;">
+		<pre class="brush: js; ruler: true; highlight: [17]">
+		function hitTest() {
+			var canvas = document.getElementById("hittestdemo2");
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = 'white';
+			ctx.fillRect(0,0,300,200);
+
+			ctx.beginPath();
+			ctx.fillStyle = 'blue';
+			ctx.rect(100,50,100,100);
+			ctx.fill();
+
+			$("#hittestdemo2")[0].onclick = function (e) {
+				var x, y;
+				x = e.offsetX;
+				y = e.offsetY;
+
+				if ( ctx.isPointInPath(x, y) ) {
+					alert( "hit event ("+x+","+y+")" );
+				}
+			}
+			$("#hittestdemo2")[0].onmousemove = function (e) {
+				var x, y;
+				x = e.offsetX;
+				y = e.offsetY;
+				$("#hitpos").text("("+x+","+y+")");
+				//console.log( x+','+y);
+			}
+		}
+		hitTest();
+		</pre>
+	</div>
+	<script type="text/javascript">
+		function hitTest() {
+			var canvas = document.getElementById("hittestdemo2");
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = 'white';
+			ctx.fillRect(0,0,300,200);
+
+			ctx.beginPath();
+			ctx.fillStyle = 'blue';
+			ctx.rect(100,50,100,100);
+			ctx.fill();
+
+			$("#hittestdemo2")[0].onclick = function (e) {
+				var x, y;
+				x = e.offsetX;
+				y = e.offsetY;
+
+				if ( ctx.isPointInPath(x, y) ) {
+					alert( "hit event ("+x+","+y+")" );
+				}
+			}
+			$("#hittestdemo2")[0].onmousemove = function (e) {
+				var x, y;
+				x = e.offsetX;
+				y = e.offsetY;
+				$("#hitpos").text("("+x+","+y+")");
+				//console.log( x+','+y);
+			}
+		}
+		hitTest();
+	</script>
+</section>
+
+<section class="slide" id="page55-Event">
+	<h2>Event</h2>
+	<ul>
+		<li>Using graph library</li>
+	</ul>
+	<div>
+		<canvas id="hittestdemo3" width="300" height="200" style='border: 1px solid black;'></canvas>
+	</div>
+	<div style="position:absolute; top:105px; left:360px; width:400px; height:400px;">
+		<pre class="brush: js; ruler: true">
+		function aminoTest() {
+			var amino = new Amino();
+			var can = amino.addCanvas('hittestdemo3');
+			can.setBackground("white");
+			var all = new Group();
+			can.add(all);
+
+			//add circle w/ event listener
+			var cir = new Circle();
+			cir.set(300,150,30);
+			cir.setFill("red");
+			all.add(cir);
+			can.onPress(cir,function() {
+				if(cir.getFill() == "red") {
+					cir.setFill("blue");
+					var anim = new PropAnim(trans,"translateX",-250,100,1);
+					amino.addAnim(anim);
+					anim.start();
+					//anim.setTween(EASE_OUT);
+				} else {
+					cir.setFill("red");
+					var anim = new PropAnim(trans,"rotate",0,360,0.5);
+					//anim.setTween(EASE_OUT_OVER);
+					amino.addAnim(anim);
+					anim.start();
+				}
+			});
+
+			//add text inside trasnform
+			var text = new Text()
+				.setText("Amino!")
+				.setFill("#50c0e0")
+				.setY(100)
+				.setFont("bold 50pt Arial")
+				;
+			var trans = new Transform(text);
+			trans.setTranslateX(100);
+			all.add(trans);
+		};
+		aminoTest();
+		</pre>
+	</div>
+	<p><font size=1>reference - http://goamino.org/</font></p>
+	<script type="text/javascript">
+		function aminoTest() {
+			var amino = new Amino();
+			var can = amino.addCanvas('hittestdemo3');
+			can.setBackground("white");
+			var all = new Group();
+			can.add(all);
+
+			//add circle w/ event listener
+			var cir = new Circle();
+			cir.set(200,150,30);
+			cir.setFill("red");
+			all.add(cir);
+			can.onPress(cir,function() {
+				if(cir.getFill() == "red") {
+					cir.setFill("blue");
+					var anim = new PropAnim(trans,"translateX",-150,50,1);
+					amino.addAnim(anim);
+					anim.start();
+					//anim.setTween(EASE_OUT);
+				} else {
+					cir.setFill("red");
+					var anim = new PropAnim(trans,"rotate",0,360,0.5);
+					//anim.setTween(EASE_OUT_OVER);
+					amino.addAnim(anim);
+					anim.start();
+				}
+			});
+
+			//add text inside trasnform
+			var text = new Text()
+				.setText("Amino!")
+				.setFill("#50c0e0")
+				.setY(100)
+				.setFont("bold 50pt Arial")
+				;
+			var trans = new Transform(text);
+			trans.setTranslateX(50);
+			all.add(trans);
+		};
+		aminoTest();
+	</script>
+</section>
+
+<section class="slide" id="page56-cover-animation">
+	<h1>Animation</h1>
+</section>
+
+<section class="slide" id="page57-setInterval">
+	<h2>Animation</h2>
+	<h3>setInterval</h3>
+	<ul>
+		<li>Animation is that it's just drawing the same thing over and over again.</li>
+		<li>If you want to animate something, just wait a few milleseconds and draw it again.</li>
+		<li>The easiest way to do this is with the <span style="color:blue">JavaScript setInterval() function.</span> It will call your drawing function every N msec.</li>
+		<li><span style="color:blue">setInterval</span> is not efficient
+		</li>
+			<ul>
+				<li>setInterval will always draw at the same speed, not the page is currently in the foreground</li>
+				<li>means more CPU, GPU, and memory usage, leading to shorter battery life.</li>
+			</ul>
+	</ul>
+</section>
+
+<section class="slide" id="page58-requestAnimationFrame">
+	<h2>Animation</h2>
+	<h3>requestAnimationFrame</h3>
+	<ul>
+		<li><span style="color:blue">requestAnimationFrame</span> was created to make animation smooth and power efficient. </li>
+			<ul>
+				<li>It also can make the animation smoother by locking it to the 60 frames per second</li>
+				<li>At some time in the future the browser will call your drawing function when the browser is ready. This gives the browser complete control over drawing so it can <code>lower the framerate when needed.</code></li>
+			</ul>
+		<li><span style="color:blue">requestAnimationFrame</span> is becoming a standard, but most browser only support <span style="color:red">their own API.</span></li>
+		<p><font size=1>ref - http://www.w3.org/TR/animation-timing/#requestAnimationFrame</font></p>
+			<ul>
+				<li> Chrome - webkitRequestAnimationFrame </li>
+				<li> Mozilla - mozRequestAnimationFrame</li>
+				<li> etc ... </li>
+			</ul>
+	</ul>
+</section>
+
+<section class="slide" id="page59-requestAnimationFrame">
+	<h2>Animation</h2>
+	<h3>requestAnimationFrame</h3>
+	<ul>
+		<li><code>Paul Irish's shim script.</code> This just maps the different variations to a new function: <span style="color:blue">requestAnimFrame</span>.</li>
+		<p><font size=1><a href ="http://paulirish.com/2011/requestanimationframe-for-smart-animating">ref - http://paulirish.com/2011/requestanimationframe-for-smart-animating</a></font></p>
+	</ul>
+
+<div><table><tr><td class="code"><pre class="javascript">&nbsp;
+    <span style="color: #006600; font-style: italic;">// shim layer with setTimeout fallback</span>
+    window.<span style="color: #660066;">requestAnimFrame</span> <span style="color: #339933;">=</span> <span style="color: #009900;">&#40;</span><span style="color: #000066; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span>
+      <span style="color: #000066; font-weight: bold;">return</span>  window.<span style="color: #660066;">requestAnimationFrame</span>     <span style="color: #339933;">||</span> 
+              window.<span style="color: #660066;">webkitRequestAnimationFrame</span> <span style="color: #339933;">||</span> 
+              window.<span style="color: #660066;">mozRequestAnimationFrame</span>    <span style="color: #339933;">||</span> 
+              window.<span style="color: #660066;">oRequestAnimationFrame</span>      <span style="color: #339933;">||</span> 
+              window.<span style="color: #660066;">msRequestAnimationFrame</span>     <span style="color: #339933;">||</span> 
+              <span style="color: #000066; font-weight: bold;">function</span><span style="color: #009900;">&#40;</span> callback <span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span>
+                window.<span style="color: #660066;">setTimeout</span><span style="color: #009900;">&#40;</span>callback<span style="color: #339933;">,</span> <span style="color: #CC0000;">1000</span> <span style="color: #339933;">/</span> <span style="color: #CC0000;">60</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+              <span style="color: #009900;">&#125;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+&nbsp;
+    <span style="color: #006600; font-style: italic;">// usage: </span>
+    <span style="color: #006600; font-style: italic;">// instead of setInterval(render, 16) ....</span>
+&nbsp;
+    <span style="color: #009900;">&#40;</span><span style="color: #000066; font-weight: bold;">function</span> animloop<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span>
+      requestAnimFrame<span style="color: #009900;">&#40;</span>animloop<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+      render<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #006600; font-style: italic;">// place the rAF *before* the render() to assure as close to </span>
+    <span style="color: #006600; font-style: italic;">// 60fps with the setTimeout fallback.</span></pre></td></tr></table></div>
+</section>
+
+<section class="slide" id="page60-simpleani">
+	<h2>Simple Animation</h2>
+	<div>
+		<canvas id="anidemo1" width="300" height="200" style='border: 1px solid black;'></canvas>
+	</div>
+	<button onclick="simpleAniStart()">start</button>
+	<div style="position:absolute; top:65px; left:360px; width:400px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		window.requestAnimFrame = (function(){
+			return  window.requestAnimationFrame || 
+              window.webkitRequestAnimationFrame || 
+              window.mozRequestAnimationFrame    || 
+              window.oRequestAnimationFrame      || 
+              window.msRequestAnimationFrame     || 
+              function( callback ){
+                window.setTimeout(callback, 1000 / 60);
+              };
+		})();
+
+		var x = 0;
+		function drawIt() {
+			window.requestAnimFrame(drawIt);
+			var canvas = document.getElementById('anidemo1');
+			var c = canvas.getContext('2d');
+			c.clearRect(0,0,canvas.width,canvas.height);
+			c.fillStyle = 'white';
+			c.fillRect(0,0,350,200);
+			c.fillStyle = "red";
+			c.fillRect(x,100,200,100);
+			x+=5;
+		}
+		function simpleAniStart() {
+			window.requestAnimFrame(drawIt);
+		}
+		</pre>
+	</div>
+	<script type="text/javascript">
+		window.requestAnimFrame = (function(){
+			return  window.requestAnimationFrame || 
+              window.webkitRequestAnimationFrame || 
+              window.mozRequestAnimationFrame    || 
+              window.oRequestAnimationFrame      || 
+              window.msRequestAnimationFrame     || 
+              function( callback ){
+                window.setTimeout(callback, 1000 / 60);
+              };
+		})();
+
+		var x = 0;
+		function drawIt() {
+			window.requestAnimFrame(drawIt);
+			var canvas = document.getElementById('anidemo1');
+			var c = canvas.getContext('2d');
+			c.clearRect(0,0,canvas.width,canvas.height);
+			c.fillStyle = 'white';
+			c.fillRect(0,0,350,200);
+			c.fillStyle = "red";
+			c.fillRect(x,100,200,100);
+			x+=5;
+		}
+		function simpleAniStart() {
+			window.requestAnimFrame(drawIt);
+		}
+		function simpleAniInit() {
+			var canvas = document.getElementById('anidemo1');
+			var c = canvas.getContext('2d');
+			c.clearRect(0,0,canvas.width,canvas.height);
+			c.fillStyle = 'white';
+			c.fillRect(0,0,350,200);
+		}
+		simpleAniInit();
+	</script>
+</section>
+
+<section class="slide" id="page61-simpleani2-ParticleSimulator">
+	<h2>Particle Simulator</h2>
+	<li style='position:absolute; top:450px;'>goal - snow animation</li>
+	<input  style='position:absolute; top:480px;' type="button" value="run snow ani" onclick="jvascript:openNewWindow()"/>
+	<img src="./images/particles.png"  style='border: 1px solid black; position:absolute;'></img>
+	<div style="position:absolute; top:60px; left:280px; width:480px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		window.requestAnimFrame = (function(){
+			return  window.requestAnimationFrame || 
+              window.webkitRequestAnimationFrame || 
+              window.mozRequestAnimationFrame    || 
+              window.oRequestAnimationFrame      || 
+              window.msRequestAnimationFrame     || 
+              function( callback ){
+                window.setTimeout(callback, 1000 / 60);
+              };
+		})();
+
+		var canvas = document.getElementById('canvas');
+		var particles = [];
+		var tick = 0;
+		function loop() {
+		    window.requestAnimFrame(loop);
+
+			// implement the classic particle simulator algorithm
+		    createParticles();
+		    updateParticles();
+		    killParticles();
+		    drawParticles();
+		}
+		window.requestAnimFrame(loop);
+		</pre>
+	</div>
+	<script>
+		function openNewWindow() {
+			popupWin = window.open(
+			'./snowani.html',
+		    'open_window',
+		    'menubar, toolbar, location, directories, status, scrollbars, resizable, dependent, width=650, height=650, left=0, top=0');
+		}
+	</script>
+</section>
+
+<section class="slide" id="page62-simpleani-createParticles">
+	<h2>Particle Simulator</h2>
+	<h3>createParticles</h3>
+	<ul>
+		<li>executes every 10th tick.</li>
+		<li>less than 100 particles.</li>
+	</ul>
+	<div style="position:absolute; top:60px; left:280px; width:480px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		function createParticles() {
+		    //check on every 10th tick check
+			if(tick % 10 == 0) {
+				if(particles.length < 100) {
+					particles.push({
+					    x: Math.random()*canvas.width,
+						y: 0,
+	                    speed: 2+Math.random()*3, //between 2 and 5
+		                radius: 5+Math.random()*5, //between 5 and 10
+			            color: "white",
+					});
+				}
+			}
+		}
+		</pre>
+	</div>
+</section>
+
+<section class="slide" id="page63-simpleani-updateParticles">
+	<h2>Particle Simulator</h2>
+	<h3>updateParticles</h3>
+	<ul>
+		<li>simply updates the y <br>coordinate of each particle<br> by adding it's speed.</li>
+		<li>less than 100 particles.</li>
+	</ul>
+	<div style="position:absolute; top:60px; left:280px; width:480px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		function updateParticles() {
+		    for(var i in particles) {
+				var part = particles[i];
+			    part.y += part.speed;
+		    }
+		}
+		</pre>
+	</div>
+</section>
+
+<section class="slide" id="page64-simpleani-drawParticles">
+	<h2>Particle Simulator</h2>
+	<h3>drawParticles</h3>
+	<ul>
+		<li>background is black</li>
+		<li>draw each particles</li>
+	</ul>
+	<div style="position:absolute; top:60px; left:280px; width:480px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		function drawParticles() {
+		    var c = canvas.getContext('2d');
+		    c.fillStyle = "black";
+		    c.fillRect(0,0,canvas.width,canvas.height);
+		    for(var i in particles) {
+		        var part = particles[i];
+				c.beginPath();
+		        c.arc(part.x,part.y, part.radius, 0, Math.PI*2);
+		        c.closePath();
+				c.fillStyle = part.color;
+		        c.fill();
+		    }
+		}
+		</pre>
+	</div>
+</section>
+
+<section class="slide" id="page65-simpleani-killParticles">
+	<h2>Particle Simulator</h2>
+	<h3>killParticles</h3>
+	<ul>
+		<li>checks if the particle<br> is below the bottom<br> of the canvas.</li>
+		<li>recycle the particle<br> by setting the y back to 0</li>
+	</ul>
+	<div style="position:absolute; top:60px; left:280px; width:480px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		function killParticles() {
+			for(var i in particles) {
+				var part = particles[i];
+		        if(part.y > canvas.height) {
+				    part.y = 0;
+		        }
+		    }
+		}
+		</pre>
+	</div>
+</section>
+
+<section class="slide" id="page66-spriteAni-What is a Sprite?">
+	<h2>What is a Sprite?</h2>
+	<ul>
+		<li>sprite is a small image that you can draw quickly to the screen.</li>
+		<li>actually cut out of a larger image called a sprite sheet or master image.</li>
+		<li>sheet might contain multiple sprites of different things</li>
+		<li> This is the classic flip-book style of animation</li>
+		<img src="./images/flip-book.jpg"></img>
+	</ul>
+</section>
+
+<section class="slide" id="page67-spriteAni-Why and When to use Sprites?">
+	<h2>Why and When to use Sprites?</h2>
+	<p>Sprites are good for a few of things.</p>
+	<ol>
+		<li>sprite is an image so it will probably draw faster than vectors, especially if those are complicated vectors.</li>
+		<li>sprites are great for when you need to draw the same thing over and over. </li>
+		<li>sprites are fast to download and draw as part of a sheet.</li>
+		<li>uses less memory to have one large image than a bunch of smaller ones.</li>
+		<li>easy collaboration. artist could easily update the graphics and animation without touching the code.</li>
+	</ol>
+</section>
+
+<section class="slide" id="page68-spriteAni-Sprite Animation">
+	<h2>Sprite Animation</h2>
+	<div>
+		<canvas id="smurfani" width="300" height="150" style='border: 1px solid black;'></canvas>
+	</div>
+	<div style="position:absolute; top:60px; left:355px; width:420px; height:460px;">
+		<pre class="brush: js; ruler: true">
+		window.requestAnimFrame = (function(){
+			return  window.requestAnimationFrame || 
+		      window.webkitRequestAnimationFrame || 
+			  window.mozRequestAnimationFrame    || 
+		      window.oRequestAnimationFrame      || 
+		      window.msRequestAnimationFrame     || 
+		      function( callback ){
+		        window.setTimeout(callback, 1000 / 60);
+		      };
+		})();
+		var tick = 0;
+		var y = 0;
+		var move = -128;
+		var smurfimg = new Image();
+		smurfimg.src = "./images/smurfsprite.png";
+		var smurfcanvas;
+		var smurfctx;
+
+        var runAnimation = {
+          value: false,
+		  isFirst: true
+        };
+
+		function loop() {
+		    window.requestAnimFrame(loop);
+ 
+		    // draw logic
+			if ( runAnimation.value ) {
+				initSmurfCanvas();
+				smurfctx.save();
+
+				var frameX = tick % 4;
+				var x = frameX * 128;
+				if ( tick === 0) {
+					y=0;
+				} else if ( tick === 4 ) {
+					y=128;
+				} else if ( tick === 8) {
+					y=256;
+				} else if ( tick === 12) {
+					y=384;
+				}
+
+				smurfctx.drawImage(
+					smurfimg,        // the image of the sprite sheet
+					x,y,128,128,  // source coordinates      (x,y,w,h)
+					move,0,128,128   // destination coordinates (x,y,w,h)
+				);
+
+				tick++;
+				if ( tick == 16 ) {
+					tick = 0;
+				}
+				move++;
+				if ( move > 300)
+				{
+					move=-128;
+				}
+				smurfctx.restore();
+			}
+		}
+		function runSmurf() {
+			runAnimation.value = !runAnimation.value;
+			if ( runAnimation.value ) {
+				$("#smurfanibt").text("Smurf Stop");
+				if ( runAnimation.isFirst ) {
+					window.requestAnimFrame(loop);
+					runAnimation.isFirst = !runAnimation.isFirst;
+				}
+			} else {
+				$("#smurfanibt").text("Smurf Run");
+			}
+		}
+
+		function initSmurfCanvas() {
+			smurfcanvas = document.getElementById('smurfani');
+			smurfctx = smurfcanvas.getContext('2d');
+			smurfctx.clearRect(0,0,canvas.width,canvas.height);
+			smurfctx.fillStyle = "white";
+		    smurfctx.fillRect(0,0,canvas.width,canvas.height);
+		}
+		initSmurfCanvas();
+		</pre>
+	</div>
+	<button id="smurfanibt" onclick="runSmurf()">Smurf Run</button>
+	<script type="text/javascript">
+		window.requestAnimFrame = (function(){
+			return  window.requestAnimationFrame || 
+		      window.webkitRequestAnimationFrame || 
+			  window.mozRequestAnimationFrame    || 
+		      window.oRequestAnimationFrame      || 
+		      window.msRequestAnimationFrame     || 
+		      function( callback ){
+		        window.setTimeout(callback, 1000 / 60);
+		      };
+		})();
+		var tick = 0;
+		var y = 0;
+		var move = -128;
+		var smurfimg = new Image();
+		smurfimg.src = "./images/smurfsprite.png";
+		var smurfcanvas;
+		var smurfctx;
+
+        var runAnimation = {
+          value: false,
+		  isFirst: true
+        };
+
+		function loop() {
+		    window.requestAnimFrame(loop);
+ 
+		    // draw logic
+			if ( runAnimation.value ) {
+				initSmurfCanvas();
+				smurfctx.save();
+
+				var frameX = tick % 4;
+				var x = frameX * 128;
+				if ( tick === 0) {
+					y=0;
+				} else if ( tick === 4 ) {
+					y=128;
+				} else if ( tick === 8) {
+					y=256;
+				} else if ( tick === 12) {
+					y=384;
+				}
+
+				smurfctx.drawImage(
+					smurfimg,        // the image of the sprite sheet
+					x,y,128,128,  // source coordinates      (x,y,w,h)
+					move,0,128,128   // destination coordinates (x,y,w,h)
+				);
+
+				tick++;
+				if ( tick == 16 ) {
+					tick = 0;
+				}
+				move++;
+				if ( move > 300)
+				{
+					move=-128;
+				}
+				smurfctx.restore();
+			}
+		}
+		function runSmurf() {
+			runAnimation.value = !runAnimation.value;
+			if ( runAnimation.value ) {
+				$("#smurfanibt").text("Smurf Stop");
+				if ( runAnimation.isFirst ) {
+					window.requestAnimFrame(loop);
+					runAnimation.isFirst = !runAnimation.isFirst;
+				}
+			} else {
+				$("#smurfanibt").text("Smurf Run");
+			}
+		}
+
+		function initSmurfCanvas() {
+			smurfcanvas = document.getElementById('smurfani');
+			smurfctx = smurfcanvas.getContext('2d');
+			smurfctx.clearRect(0,0,canvas.width,canvas.height);
+			smurfctx.fillStyle = "white";
+		    smurfctx.fillRect(0,0,canvas.width,canvas.height);
+		}
+		initSmurfCanvas();
+	</script>
+</section>
+
+<section class="slide" id="page69-next">
+	<h2>What is Next</h2>
+	<ol>
+		<li>Making a Game</li>
+		<li>3D Graphics with WebGL and ThreeJS</li>
+		<li>WebGL Hands On with ThreeJS: 3D Car</li>
+		<li>WebCam Access with getUserMedia()</li>
+	</ol>
+</section>
+
+<section class="slide" id="page70-cover-last">
+	<h1>Q&A</h1>
+</section>
+
+<section class="slide" id="page71-refenrece">
+	<h2>refenrece</h2>
+	<ul>
+		<li type="square">
+			<a href="http://joshondesign.com/p/books/canvasdeepdive/toc.html">
+			canvas doc - http://joshondesign.com/p/books/canvasdeepdive/toc.html</a>
+		</li>
+		<li type="square">
+			<a href="http://dev.w3.org/html5/2dcontext/">
+			canvas spec - http://dev.w3.org/html5/2dcontext/</a>
+		</li>
+		<li type="square">
+			<a href="http://imakewebthings.com/deck.js">
+			This doc - http://imakewebthings.com/deck.js</a>
+		</li>
+		<li type="square">
+			<a href="http://alexgorbatchev.com/SyntaxHighlighter/">
+			code highlighter doc - http://alexgorbatchev.com/SyntaxHighlighter/</a>
+		</li>
+		<li type="square">
+			<a href="https://github.com/corydorning/jangle">
+			code parameter change doc - https://github.com/corydorning/jangle</a>
+		</li>
+		<li type="square">
+			<a href="http://ace.ajax.org">
+			webbased ide(editor) - http://ace.ajax.org</a>
+		</li>
+		<li type="square">
+			<a href="http://goamino.org">
+			javascript graph lib - http://goamino.org/</a>
+		</li>
+	</ul>
+</section>
+
+<!-- End slides. -->
+
+
+<!-- Begin extension snippets. Add or remove as needed. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+   <label for="goto-slide">Go to slide:</label>
+   <input type="number" name="slidenum" id="goto-slide" list="goto-datalist">
+   <datalist id="goto-datalist"></datalist>
+   <input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- End extension snippets. -->
+</article>
+
+<!-- Required JS files. -->
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+
+<script src="./core/deck.core.js"></script>
+<script src="./extensions/hash/deck.hash.js"></script>
+<script src="./extensions/menu/deck.menu.js"></script>
+<script src="./extensions/goto/deck.goto.js"></script>
+<script src="./extensions/status/deck.status.js"></script>
+<script src="./extensions/navigation/deck.navigation.js"></script>
+<script src="./extensions/scale/deck.scale.js"></script>
+<script type="text/javascript" src="./extensions/jangle/jquery.jangle.js"></script> <!-- load jangle plugin -->
+
+<!-- Custom JS files -->
+<script type="text/javascript" src="./extensions/syntaxhighlighter3.0.83/scripts/shCore.js"></script>
+<script type="text/javascript" src="./extensions/syntaxhighlighter3.0.83/scripts/shBrushJScript.js"></script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<script src="./extensions/jangle/jangle.js"></script>
+<!--
+<script src="./extensions/ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>--> <!-- ace editor -->
+<script>
+	// ace editor
+	/*
+	function makeACEeditor(id) {
+		var editor = ace.edit(id);
+		editor.destroy();
+		editor.setTheme("ace/theme/clouds");
+		editor.getSession().setMode("ace/mode/javascript");
+		return editor;
+	}
+	*/
+
+	// defined 
+	function myeditorRun(runCode) {
+		var preCode = "<!DOCTYPE html>\n"+
+					  "<body bgcolor=white onLoad='self.focus()'>\n"+
+					  "<canvas width='500' height='500' id='temp-canvas' style='border: 1px solid black'></canvas>\n"+
+					  "</body>\n"+
+					  "</html>";
+
+		// run to new window
+		top.consoleRef = window.open('','test',
+									 'width=600,height=600'
+									 +',menubar=0'
+								     +',toolbar=1'
+								     +',status=0'
+								     +',scrollbars=1'
+								     +',resizable=1');
+		top.consoleRef.document.writeln(
+			preCode
+		);
+
+		// added dynamic script
+		var script = top.consoleRef.document.createElement('script');
+		script.text = runCode;
+		top.consoleRef.document.body.appendChild( script );
+		top.consoleRef.document.close();
+	}
+</script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script src="./css/introduction.js"></script>
+</body>
+</html>
