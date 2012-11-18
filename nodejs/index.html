@@ -1,0 +1,526 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<title>Node.js Study</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=1274, user-scalable=no">
+	<link rel="stylesheet" href="themes/shCore.css">
+	<link rel="stylesheet" href="themes/shThemeDefault.css">
+	<link rel="stylesheet" href="themes/ribbon/styles/style.css">
+	<!--
+		To apply styles to the certain slides
+		use slide ID to get needed elements
+		-->
+	<style>
+		.syntaxhighlighter {
+	        overflow: auto !important;
+	        }
+	    P.reference {
+	        font-size: 16px;
+            position: absolute;
+            left: 178px;
+            bottom: 20px;
+	        }
+	    P.reference A {
+                color: #BBB;
+			}
+		#Cover H2 {
+		    position: absolute;
+		    bottom: 100px;
+		    right: 100px;
+		    margin: 0;
+		    text-align: right;
+		    font-size: 30px;
+			}
+		#Cover img {
+			max-width: 100%;
+			max-height: 100%;
+			}
+		#cover1 h2,
+		#cover2 h2,
+		#cover3 h2,
+		#FitToWidth h2,
+		#FitToHeight h2 {
+			font-size: 90px;
+			color:#FFF;
+			text-align:center;
+			}
+	</style>
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Node.js Study</h1>
+		<p>gyeongseok.seo's study!</p>
+	</header>
+
+	<div class="slide cover w" id="Cover"><div>
+		<section>
+			<header>
+				<h2>gyeongseok.seo@samsung.com<br>August 10, 2012</h2>
+			</header>
+			<img src="pictures/cover.png" alt="node.js">
+		</section>
+	</div></div>
+
+	<!-- start review ppt-->
+	<div class="slide cover w" id="cover1"><div>
+		<section>
+			<header>
+				<h2>Review</h2>
+			</header>
+			<img src="pictures/nodejs.jpg" alt="">
+		</section>
+	</div></div>
+	<div class="slide" id="page1-node.js"><div>
+		<section>
+			<header>
+				<h2>Node.js</h2>
+			</header>
+			<ul>
+				<li>Node.js was created by Ryan Dahl starting in 2009.</li>
+				<li>Node.js consists of Google's V8 JavaScript engine.</li>
+				<li>Programs are written in JavaScript.</li>
+				<li>using <code>event-driven, asynchronous I/O.</code></li>
+			</ul>
+			<p>
+			    <img align="left" src="pictures/ryan-dahl.jpg" alt="Photo of Ryan Dahl" width="200">
+			    <img align="right" src="pictures/Joyent.png" alt="Joyent Logo" width="200">
+			    Created by Ryan Dahl<br>
+			    Sponsored by Joyent
+			</p>
+		</section>
+	</div></div>
+	<div class="slide" id="GitHubPopularProjects"><div>
+		<section>
+			<header>
+				<h2>GitHub's Popular Wached Repositories</h2>
+			</header>
+			<p></p>
+			<img src="pictures/Popular Watched Repositories - GitHub.png" alt="Node.js is second in GitHub's Popular Watched Repositories" height="400" class="middle">
+			<p class="reference">
+			September 3, 2011
+			    <a href="https://github.com/popular/watched" target="_blank">
+			        https://github.com/popular/watched
+			    </a>
+			</p>
+		</section>
+	</div></div>
+	<div class="slide" id="WhatIsTheSoftwareDoingWhileItWaits1"><div>
+		<section>
+			<header>
+				<h2>What is the software doing while it queries the database?</h2>
+			</header>
+			<div><div id="highlighter_480477" class="syntaxhighlighter  js"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2 highlighted">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2 highlighted"><code class="js plain">result = db.query(</code><code class="js string">"select * from T"</code><code class="js plain">);</code></div><div class="line number2 index1 alt1"><code class="js comments">// use result</code></div></div></td></tr></tbody></table></div></div>
+		</section>
+	</div></div>
+	<div class="slide" id="WhatIsTheSoftwareDoingWhileItWaits2"><div>
+		<section>
+			<header>
+				<h2>What is the software doing while it queries the database?</h2>
+			</header>
+			<div><div id="highlighter_478031" class="syntaxhighlighter  js"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2 highlighted">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2 highlighted"><code class="js plain">result = db.query(</code><code class="js string">"select * from T"</code><code class="js plain">);</code></div><div class="line number2 index1 alt1"><code class="js comments">// use result</code></div></div></td></tr></tbody></table></div></div>
+		    <p><mark>In many cases, just waiting for the response.</mark></p>
+		</section>
+	</div></div>
+	<div class="slide" id="ModernComputerLatency"><div>
+		<section>
+			<header>
+				<h2>Modern Computer Latency</h2>
+			</header>
+			<p>
+			    L1: 3 cycles<br>
+			    L2: 14 cycles<br>
+			    RAM: 250 cycles<br>
+			    -----------------------<br>
+		        DISK: 41,000,000 cycles<br>
+		        NETWORK: 240,000,000 cycles<br>
+		    </p>
+		    <p class="reference">
+		        <a href="http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait" target="_blank">
+        	        http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait
+	            </a>
+            </p>
+		</section>
+	</div></div>
+	<div class="slide" id="NonblockingAndBlocking"><div>
+		<section>
+			<header>
+				<h2>Non-blocking and Blocking</h2>
+			</header>
+			<p>
+			    <strong>"Non-blocking"</strong><br>
+			    L1, L2, RAM<br>
+			    -----------------------<br>
+			    <strong>"Blocking"</strong><br>
+		        DISK, NETWORK<br>
+		    </p>
+		</section>
+	</div></div>
+	<div class="slide" id="Multitask"><div>
+		<section>
+			<header>
+				<h2>Multitask</h2>
+			</header>
+			<p>Better software can multitask.</p>
+			<p>Other threads of execution can run while waiting.</p>
+		</section>
+	</div></div>
+	<div class="slide shout" id="IsThatTheBest"><div>
+		<section>
+			<header>
+				<h2>Is that the best that can be done?</h2>
+			</header>
+		</section>
+	</div></div>
+	<div class="slide" id="ApacheNGINXRequestPerSecond"><div>
+		<section>
+			<header>
+				<h2>Apache vs. NGINX - Requests per Second</h2>
+			</header>
+			<ul>
+				<li><img src="pictures/apahcevsnginx2.jpg" height="70%"/></li>
+			</ul>
+			<p class="reference">
+	            <a href="http://blog.webfaction.com/a-little-holiday-present" target="_blank">
+        	        http://blog.webfaction.com/a-little-holiday-present
+                </a>
+            </p>
+		</section>
+	</div></div>
+	<div class="slide" id="ApacheNGINXMemoryUsage"><div>
+		<section>
+			<header>
+				<h2>Apache vs. NGINX - Memory Usage</h2>
+			</header>
+			<ul>
+				<li><img src="pictures/apahcevsnginx.jpg" height="70%"/></li>
+			</ul>
+			<p class="reference">
+	            <a href="http://blog.webfaction.com/a-little-holiday-present" target="_blank">
+        	        http://blog.webfaction.com/a-little-holiday-present
+                </a>
+            </p>
+		</section>
+	</div></div>
+	<div class="slide" id="ApacheNGINXDifference"><div>
+		<section>
+			<header>
+				<h2>Apache vs. NGINX - The Difference?</h2>
+			</header>
+			<p>Apache uses <strong>one thread per connection</strong>.</p>
+			<p>NGINX doesn't use threads. It uses an <strong>event loop</strong>.</p>
+		</section>
+	</div></div>
+	<div class="slide" id="EventLoop"><div>
+		<section>
+			<header>
+				<h2>Event Loop</h2>
+			</header>
+			<p>A loop that waits for events (I/O availability, timeout, UI interaction, ...).</p>
+			<p>When an event is available, it will be processed by executing a callback.</p>
+		</section>
+	</div></div>
+	<div class="slide" id="MultithreadProblems"><div>
+		<section>
+			<header>
+				<h2>Multithread Problems</h2>
+			</header>
+			<ul>
+			    <li>Context switching is not free</li>
+			    <li>Execution stacks take up memory</li>
+		    </ul>
+		    <p>For massive concurrency, <strong>cannot</strong> use an OS thread for each connection.</p>
+		</section>
+	</div></div>
+	<div class="slide" id="ThreadsAreEvil"><div>
+		<section>
+			<header>
+				<h2>Threads Are Evil</h2>
+			</header>
+			<blockquote cite="Douglas Crockford">
+			    <ul style="margin-left: 35px;">
+			        <li>In systems programming, threads are a necessary evil.</li>
+			        <li>In application programming, threads are just evil.</li>
+			        <li>Threads provide a deceptively simple model of concurrency.</li>
+			        <li>Threads are subject to races and deadlocks.</li>
+			    </ul>
+			</blockquote>
+		</section>
+	</div></div>
+	<div class="slide" id="MutualExclusion"><div>
+		<section>
+			<header>
+				<h2>Mutual Exclusion</h2>
+			</header>
+			<blockquote cite="Douglas Crockford">
+			    <p>Semaphore, Monitor, Rendezvous, Synchronization</p>
+			    <ul style="margin-left: 35px;">
+			        <li>This used to be operating system stuff.</li>
+			        <li>It has leaked into applications because of networking and the multi-core problem.</li>
+			    </ul>
+			</blockquote>
+		</section>
+	</div></div>
+	<div class="slide" id="BlockingCode"><div>
+		<section>
+			<header>
+				<h2>Blockiong Code</h2>
+			</header>
+			<p>Code like this:</p>
+			<div><div id="highlighter_529102" class="syntaxhighlighter  js"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2 highlighted">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2 highlighted"><code class="js plain">result = query(</code><code class="js string">"select..."</code><code class="js plain">);</code></div><div class="line number2 index1 alt1"><code class="js comments">// use result</code></div></div></td></tr></tbody></table></div></div>
+		    <p>either <strong>blocks the entire OS thread</strong> or implies <strong>multiple execution stacks</strong>.</p>
+		</section>
+	</div></div>
+	<div class="slide" id="NonblockingCode"><div>
+		<section>
+			<header>
+				<h2>Non-blockiong Code</h2>
+			</header>
+			<p>But a code like this:</p>
+			<div><div id="highlighter_292725" class="syntaxhighlighter  js"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2 highlighted">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2 highlighted"><code class="js plain">query(</code><code class="js string">"select..."</code><code class="js plain">, </code><code class="js keyword">function</code> <code class="js plain">(result) {</code></div><div class="line number2 index1 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js comments">// use result</code></div><div class="line number3 index2 alt2"><code class="js plain">});</code></div></div></td></tr></tbody></table></div></div>
+		    <p>allows the program to return to the event loop immediately.</p>
+		</section>
+	</div></div>
+
+	<!-- start Node.js grobal Object ppt-->
+	<div class="slide cover w" id="cover2"><div>
+		<section>
+			<header>
+				<h2>Node.js Global Object</h2>
+			</header>
+			<img src="pictures/nodejs.jpg" alt="">
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal1"><div>
+		<section>
+			<header>
+				<h2>Node.js global variable and object</h2>
+			</header>
+			<ul>
+				<li>Node.js don't have to window object.</li>
+				<li>Node.js is not running on web browser.</li>
+				<li>but Node.js has global varibale and object.</li>
+			</ul>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal2"><div>
+		<section>
+			<header>
+				<h2>Node.js global variable and object</h2>
+			</header>
+			<ul>
+				<li>global varibale
+					<ol>
+						<li> __filename  :  This is the resolved absolute path of this code file</li>
+						<li> __dirname   :  The name of the directory that the currently executing script resides in</li>
+					</ol>
+					<img align="right" src="pictures/nodeglobal1.jpg" alt="">
+				</li>
+			</ul>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal3"><div>
+		<section>
+			<header>
+				<h2>Node.js global variable and object</h2>
+			</header>
+			<ul>
+				<li>global object
+					<ol>
+						<li>console : printing to stdout and stderr, Similar to the console object functions provided by most web browsers.</li>
+						<li>exports : handle to module.</li>
+						<li>process : handle to program.</li>
+					</ol>
+				</li>
+				<li>JavaScript object also supported. ex) String, Number, Math ...</li>
+			</ul>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal4"><div>
+		<section>
+			<header>
+				<h2>console object</h2>
+			</header>
+			<pre class="brush: js">
+				console.time('testTime');
+
+				console.log('num: %d + %d = %d', 100, 50, 100+50);
+				console.log('string: %s', 'Hello Wrold!', ' Hello node.js!');
+				console.log('json: %j', { key: 'value' } );
+
+				console.timeEnd('testTime');
+			</pre>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal5"><div>
+		<section>
+			<header>
+				<h2>process object</h2>
+			</header>
+			<pre class="brush: js">
+				// attibute
+				console.log('env :', process.env );
+				console.log('version :', process.version ); // Node.js version
+				console.log('versions : ', process.versions ); // Node.js and modules version
+				console.log('arch : ', process.arch );
+				console.log('platform : ', process.platform );
+
+				// method
+				console.log('memoryUsage : ', process.memoryUsage() );
+				console.log('uptime : ', process.uptime() );  // current program start time
+			</pre>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal6"><div>
+		<section>
+			<header>
+				<h2>exports object</h2>
+			</header>
+			<li>support of module system. export is the same as the module.exports object.</li>
+			<li> refrence : <a href="http://nodejs.org/api/modules.html"> module system documentation</a></li>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal7"><div>
+		<section>
+			<header>
+				<h2>exports object</h2>
+			</header>
+			<pre class="brush: js; highlight: [4, 8]">
+				// create module - mymodule.js
+				var PI = Math.PI;
+
+				exports.area = function (r) {
+  					return PI * r * r;
+				};
+
+				exports.circumference = function (r) {
+  					return 2 * PI * r;
+				};
+			</pre>
+		</section>
+	</div></div>
+	<div class="slide" id="nodeGrobalVal8"><div>
+		<section>
+			<header>
+				<h2>exports object</h2>
+			</header>
+			<pre class="brush: js; highlight: 2">
+				// using module - main.js
+				var circle = require('./mymodule.js');
+
+				console.log( 'The area of a circle of radius 4 is' + circle.area(4) );
+				console.log( 'The circumference of a circle of radius 4 is' + circle.circumference(4) );
+			</pre>
+			<li>module creaet - exports</li>
+			<li>module using  - require</li>
+		</section>
+	</div></div>
+	<div class="slide" id="moduleLoading"><div>
+		<section>
+			<header>
+				<h2>Loading from node_modules Folders</h2>
+			</header>
+			<ul>
+				<li>If the module identifier passed to require() is not a native module.</li>
+				<li>then node starts at the parent directory of the current module</li>
+				<li>and adds /node_modules, and attempts to load the module from that location</li>
+			</ul>
+		</section>
+	</div></div>
+	<div class="slide" id="moduleLoading2"><div>
+		<section>
+			<header>
+				<h2>Loading from node_modules Folders</h2>
+			</header>
+			<ul>
+				<li>For example, if the file at '/home/ry/projects/foo.js' called require('bar.js'), then node would look in the following locations, in this order</li>
+				<ol>
+					<li>/home/ry/projects/node_modules/bar.js
+					<li>/home/ry/node_modules/bar.js
+					<li>/home/node_modules/bar.js
+					<li>/node_modules/bar.js
+				</ol>
+			</ul>
+		</section>
+	</div></div>
+
+	<!-- start Node.js tip ppt-->
+	<div class="slide cover w" id="cover3"><div>
+		<section>
+			<header>
+				<h2>Node.js Tip</h2>
+			</header>
+			<img src="pictures/nodejs.jpg" alt="">
+		</section>
+	</div></div>
+	<div class="slide" id="NPM"><div>
+		<section>
+			<header>
+				<h2>Node.js Package Manager</h2>
+			</header>
+			<p>
+			    <img src="pictures/npm.png" alt="NPM Logo" align="right" width="300">
+			    <code>npm</code> is a package manager for node. You can use it to install and publish your node programs. It manages dependencies and does other cool stuff.
+		    </p>
+			<pre><code>curl http://npmjs.org/install.sh | sh</code></pre>
+			<p class="reference">
+			    <a href="http://npmjs.org/" target="_blank">
+			        http://npmjs.org/
+		        </a>
+			</p>
+		</section>
+	</div></div>
+	<div class="slide" id="NPMUsage"><div>
+		<section>
+			<header>
+				<h2>NPM Usage</h2>
+			</header>
+			<pre><code>npm install -g connect</code></pre>
+		</section>
+	</div></div>
+
+	<!-- end ppt-->
+	<div class="slide" id="References"><div>
+		<section>
+			<header>
+				<h2>References</h2>
+			</header>
+			<ul style="font-size: 20px;">
+				<li><a href="http://nodejs.org/">http://nodejs.org/</a></li>
+				<li><a harf="http://behrang.github.com/presentations/node.js/2011-09-07/"></a></li>
+				<li><a href="http://howtonode.org/">http://howtonode.org/</a></li>
+				<li><a href="http://npmjs.org/">http://npmjs.org/</a></li>
+				<li><a href="http://senchalabs.github.com/connect/">http://senchalabs.github.com/connect/</a></li>
+				<li><a href="http://expressjs.com/">http://expressjs.com/</a></li>
+				<li><a href="http://learnboost.github.com/cluster/">http://learnboost.github.com/cluster/</a></li>
+				<li><a href="https://github.com/popular/watched">https://github.com/popular/watched</a></li>
+				<li><a hre="http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait">http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait</a></li>
+				<li><a href="http://blog.webfaction.com/a-little-holiday-present">http://blog.webfaction.com/a-little-holiday-present</a></li>
+			</ul>
+		</section>
+	</div></div>	
+	<div class="slide" id="ThankYou"><div>
+		<section>
+			<header>
+				<h2>This ppt is using - Shower Presentation Template</h2>
+			</header>
+			<ul>
+				<li>document writer : gyeongseok.seo@samsung.com</li>
+				<li> this template  : Vadim Makeev, Opera Software</li>
+				<p class="reference">Shower: <a href="http://github.com/pepelsbey/shower">github.com/pepelsbey/shower</a></p>
+			</ul>
+		</section>
+	</div></div>
+	<!--
+		To hide progress bar from entire presentation
+		just remove “progress” element.
+		-->
+	<div class="progress"><div></div></div>
+	<script src="scripts/script.js"></script>
+	<script src="scripts/shCore.js"></script>
+	<script src="scripts/shBrushJScript.js"></script>
+	<script>SyntaxHighlighter.all();</script>
+	<!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
+	<!-- Photos by John Carey — fiftyfootshadows.net -->
+</body>
+</html>
