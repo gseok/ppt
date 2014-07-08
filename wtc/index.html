@@ -1,0 +1,669 @@
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>WTC</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="css/reveal.min.css">
+  <link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+    document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  </script>
+
+  <style>
+  @font-face { font-family: sangsang; src: url('SangSangBodyOTFM.otf'); }
+
+  .slides section {
+    height: 100%;
+  }
+
+  .slides > section * {
+    font-family: "Open Sans",sangsang,sans-serif;
+    font-weight: normal;
+  }
+
+  .highlight {
+    color: #e7ad52;
+  }
+
+  section h2:first-child {
+    text-align: center;
+    font-weight: 700;
+  }
+
+  section .content {
+    display: table;
+    width: 100%;
+    height: 80%;
+  }
+  section .content .contentedit {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .masthead h1 {
+    color: #f9f7f6;
+    font-family: "Open Sans",sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.5em;
+    margin: 0;
+  }
+  .masthead h1 * {
+    font-family: inherit !important;
+  }
+  .linebreak {
+    display: block;
+  }
+
+  hgroup h2 {
+    line-height: 45px !important;
+    letter-spacing: -2px !important;
+    text-align: start !important;
+  }
+  hgroup + article {
+    margin-top: 45px !important;
+    text-align: left !important;
+  }
+  hgroup + article p {
+    margin-bottom: 1em;
+  }
+
+  a {
+    color: inherit !important;
+  }
+  ul li, ol li {
+    margin-bottom: 0.3em !important;
+    margin-top: 0.3em !important;
+  }
+  ul.large li {
+    font-size: 1.6em;
+    margin-bottom: 1em !important;
+  }
+  .title {
+    text-align: start !important;
+  }
+  .title span.highlight {
+    font-family: "Droid Sans Mono",sans-serif;
+    padding-left: 1em;
+  }
+
+  .segue > h2, h2.segue {
+    color: gray;
+    font-size: 140px;
+    /* box-shadow: 1px 1px 10px black; */
+
+    line-height: 1.1;
+  }
+
+  .uip {
+    color: #007777;
+  }
+  .ide {
+    color: #8c4738;
+  }
+  </style>
+</head>
+
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <h1>
+      Introduction to
+      <div class="title">
+      <span class="highlight">W</span>eb<br />
+      <span class="highlight">T</span>echnology<br />
+      <span class="highlight">C</span>ell
+      </div></h1>
+
+      <div class="content">
+        <div class="contentedit">
+          <h3>Kang Hoon</h3>
+          <h3>2014.07.02</h3>
+        </div>
+      </div>
+    </section>
+
+    <section data-background="#1d1b1b">
+      <h2>Agenda</h2>
+
+      <div class="content">
+        <div class="contentedit">
+          <ul class="large">
+            <li>Intro (Kang Hoon)
+            <li>UI Prototyper (Lim Changhoon)
+            <li>IDE (Kim Kangho)
+            <li>Outro (Kang Hoon)
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <section data-background="#1d1b1b" data-background-transition="slide">
+        <h2>HISTORY</h2>
+
+        <hgroup>
+          <h1></h1>
+          <h2></h2>
+        </hgroup>
+        <article>
+          <ul>
+              <font>
+                  <li style="font-size: 32px;">
+                      <span>4.15 전사 조직 개편</span>
+                  </li>
+                  <ul>
+                      <li style="font-size: 32px;">
+                          <span>중기 비전 수립 및 트렌드 변화 대응 선행기술 연구팀 신설</span>
+                      </li>
+                      <li style="font-size: 32px;">
+                          <span>산하 조직으로 6개 기술영역으로 분류하여 셀(Cell) 신설</span>
+                      </li>
+                  </ul>
+                  <li>
+                      <span>PSLab + Tizen 과제인원</span>
+                  </li>
+                  <ul>
+                      <li>
+                          <span style="font-size: 32px;">&rarr; SDK 개발그룹 (Tizen SDK 과제)</span>
+                      </li>
+                      <li>
+                          <span style="font-size: 32px;">&rarr; WT 셀 (Webida 성장과제 인원 주축 + alpha)</span>
+                      </li>
+                  </ul>
+              </font>
+          </ul>
+        </article>
+      </section>
+
+      <section data-background="#1d1b1b" data-background-transition="slide">
+        <h2>PEOPLE</h2>
+
+        <hgroup>
+          <h1></h1>
+          <h2></h2>
+        </hgroup>
+        <article>
+          <ul>
+              <li>3 Parts 16 Developers</li>
+              <li>Architecture (강훈)</li>
+              <ul>
+                  <li>셀 운영, PM, 미래과제발굴</li>
+              </ul>
+              <li>UI Builder (<span class="uip">임창훈</span>, <span class="uip">김윤형</span>, <span class="uip">김주관</span>, <span class="uip">김철기</span>, <span class="uip">서경석</span>, <span class="uip">변영택</span>, <span class="uip">이윤석</span>, 조현상)</li>
+              <li>Server/IDE (<span class="ide">김강호</span>, <span class="ide">김대영</span>, <span class="ide">김상진</span>, <span class="ide">나현익</span>, <span class="uip">박종걸</span>, <span class="uip">심흥운</span>, <span class="ide">조우영</span>)</li><br />
+
+              <li>[REMIND!] 여러분 모두가 1차 소속은 WT 셀입니다.
+          </ul>
+        </article>
+      </section>
+
+      <section data-background="#1d1b1b" data-background-transition="slide">
+        <h2>WHY Web Technology?</h2>
+
+        <hgroup>
+          <h1></h1>
+          <h2></h2>
+        </hgroup>
+        <article>
+      <div>
+          <ul>
+              <li>기술 트렌드의 변화</li>
+              <ul>
+                  <li>HTML5 의 성장</li>
+                  <li>Internet of Everything</li>
+              </ul>
+          </ul>
+          <div style="text-align: left;">
+              <br>
+          </div>
+          <span style="text-align: left;">&rarr; 웹기반 앱/서비스 개발/운영 생태계 대세</span>
+          <br>
+      </div>
+      <div>
+          <span style="text-align: left;">(New Programming System)</span>
+      </div>
+        </article>
+      </section>
+
+      <section data-background="#1d1b1b" data-background-transition="slide">
+        <h2>What We Have</h2>
+
+        <hgroup>
+          <h1></h1>
+          <h2></h2>
+        </hgroup>
+        <article>
+          <ul>
+              <li>Tizen SDK Experience</li>
+              <ul>
+                  <li>Web IDE, UI Builder</li>
+                  <li>Mobile Platform</li>
+              </ul>
+              <li>Webida working software</li>
+              <ul>
+                  <li>Service Platform (Filesystem, Authorization)</li>
+                  <li>Web-based IDE for HTML5 App</li>
+              </ul>
+              <li>Dogfooding Spirit</li>
+          </ul>
+        </article>
+      </section>
+    </section>
+
+    <section data-background="#007777">
+      <h2>UI Prototyping Tool</h1>
+
+      <div class="content">
+        <div class="contentedit">
+          <ul class="large">
+            <li>Introduction
+            <li>Features
+            <li>Limitations
+            <li>Modules
+            <li>Demo
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section data-background="#007777">
+        <h2>소개</h2>
+        <ul>
+            <li>과제명: UI Prototyping Tool 구현</li>
+            <li>고객: SDS SW 기술 그룹</li>
+            <li>기간: 2014.04.01 ~ 2014.10.20</li>
+            <li>인원: WTC 9명 + 1</li>
+            <li>배경
+                <ul>
+                    <li>SDS - UI Modeler 의 기능 개선</li>
+                    <li>S-Core - Web IDE 의 UI Builder 확보</li>
+                </ul>
+            </li>
+            <li>의미
+                <ul>
+                    <li>약 70 man/month 과제 수주</li>
+                    <li>과제 결과물 내재화로 Web IDE 기능 추가</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section data-background="#007777">
+        <section>
+            <h2>기능</h2>
+            <ul>
+                <li>화면 편집
+                    <ul>
+                        <li>WYSIWYG UI Layout 기능</li>
+                        <li>Responsive Web 지원</li>
+                        <li>스타일 / 속성 편집</li>
+                    </ul>
+                </li>
+                <li>액션 편집 / 확인
+                    <ul>
+                        <li>Event Handling</li>
+                        <li>Data Binding</li>
+                        <li>미리보기</li>
+                        <li>Storyboard</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <ul>
+                <li>Feedback (첨삭)</li>
+                <li>템플릿 / 테마
+                    <ul>
+                        <li>사용자 정의 템플릿</li>
+                        <li>테마 편집</li>
+                    </ul>
+                </li>
+                <li>관리
+                    <ul>
+                        <li>사용자 관리</li>
+                        <li>파일 구조 관리</li>
+                        <li>형상 관리 연동</li>
+                        <li>Custom 컴포넌트 관리</li>
+                    </ul>
+                </li>
+                <li>문서 생성
+                    <ul>
+                        <li>화면 prototype 정의서</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </section>
+
+    <section data-background="#007777">
+        <h2>한계</h2>
+        <ul>
+            <li>상충하는 요구사항
+                <ul>
+                    <li>쉬운 Prototyping 툴</li>
+                    <li>범용 UI Builder 툴</li>
+                </ul>
+            </li>
+            <li>쉬운 Prototyping 툴도 아니고, 범용 UI Builder 도 아닌 애매한 포지션</li>
+            <li>우리의 방향
+                <ul>
+                    <li>Prototyping 특화된 쉬운 UX</li>
+                    <li>범용 설계</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section data-background="#007777">
+        <h2>모듈</h2>
+        <ul>
+            <li>Webida Server / App Platform</li>
+            <li>Web Editing Framework (WEF)
+                <ul>
+                    <li>GEF 의 web porting</li>
+                    <li>EditDomain, EditPart, EditPolicy, CommandStack, ...</li>
+                </ul>
+            </li>
+            <li>Type-based Property Editor
+                <ul>
+                    <li>String, Integer, Color, Position, Size, ...</li>
+                </ul>
+            </li>
+            <li>UIFW Component Description
+                <ul>
+                    <li>선언적 명세</li>
+                    <li>동적 실행</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section data-background="#8c4738">
+      <h2>IDE</h1>
+
+      <div class="content">
+        <div class="contentedit">
+          <ul class="large">
+            <li>Our Mission
+            <li>On-going Projects
+            <li>What's Next
+            <li>Demo Day
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section data-background="#8c4738">
+      <h2>Our Mission</h2>
+
+      <div class="content masthead">
+        <div class="contentedit">
+          <h1>We build and support
+          <span class="linebreak"><span class="highlight">Web IDE</span> products.</span></h1>
+        </div>
+      </div>
+    </section>
+
+    <section data-background="#8c4738">
+      <section class="segue">
+        <h2 style="position: fixed; left: 360px; top: 50%;">On-going Projects</h2>
+
+      <hgroup>
+        <h1></h1>
+        <h2>IDE General</h2>
+        <h2>Editor</h2>
+        <h2>Server</h2>
+        <h2>Test Tool</h2>
+      </hgroup>
+      <article>
+      </article>
+    </section>
+
+      <section>
+        <hgroup>
+          <h1></h1>
+          <h2>IDE General</h2>
+        </hgroup>
+        <article>
+        <ul>
+          <li><a href="https://wikida.webida.net/#/view/webida/1--html5-app-developer's-guide/2--system-apps-manuals/3--ide">Workbench, Project Management, Git Support</a></li>
+          <li><a href="http://confluence.score/display/WTC/Plugin+System"><span class="highlight">Plugin System</a></span></li>
+          <li><span class="highlight">Mobile Support</span></li>
+            <ul>
+              <li>Supports Android by Cordova (w/ Companion App)
+            </ul>
+        </ul>
+        <p>
+        <img src="images/1.Login.png" style="position: relative; left: 100px;" />
+        <img src="images/Play19.png" style="position: relative; left: 120px;" />
+        </p>
+        </article>
+      </section>
+
+      <section>
+        <hgroup>
+          <h1></h1>
+          <h2>Editor</h2>
+        </hgroup>
+        <article>
+        <ul>
+          <li>Based on CodeMirror</li>
+          <li>Content Assist</li>
+            <ul>
+              <li>Code Completion
+              <li>JavaScript Type Inference
+              <li>Jump to Definition
+            </ul>
+          <li><span class="highlight">Outline</span></li>
+        </ul>
+        <p>
+        <img src="images/webida-editor-capture1.png" style="position: relative; left: 450px; top: -320px;" />
+        </p>
+        </article>
+      </section>
+
+      <section>
+        <hgroup>
+          <h1></h1>
+          <h2>Server</h2>
+        </hgroup>
+        <article>
+        <ul>
+          <li>Filesystem</li>
+          <li>Authorization and <span class="highlight">ACL</span></li>
+            <ul>
+              <li>Provides role-based access control
+              <li>Provides fine control for the resources (user, file, ...)
+            </ul>
+          <li><span class="highlight">Build</span></li>
+            <ul>
+              <li>Provides Android support with signing
+            </ul>
+          <li><span class="highlight">Online Simulator, WEINRE Debug Server</span></li>
+          <li><span class="highlight">Notification</span></li>
+            <ul>
+              <li>Based on WebSocket
+            </ul>
+          <li><span class="highlight">CORS Proxy</span></li>
+        </ul>
+        </article>
+      </section>
+
+      <section>
+        <hgroup>
+          <h1></h1>
+          <h2><span class="highlight">Test Tool</span></h2>
+        </hgroup>
+        <article>
+        <ul>
+          <li>Authoring and runtime environment for automated web application test</li>
+            <ul>
+              <li>Based on Selenium WebDriver</li>
+              <li>Provided as Eclipse plug-in</li>
+              <li>Provides ready-made test actions like click, input, etc.</li>
+            </ul>
+        </ul>
+        <p>
+        <img src="images/webida-test-tool-capture1.png" style="position: relative; left: 100px;" />
+        </p>
+        </article>
+      </section>
+
+      <section>
+        <hgroup>
+          <h1></h1>
+          <h2>UI Prototyper</h2>
+        </hgroup>
+        <article>
+        <ul>
+          <li>Based on IDE and Server System</li>
+            <ul>
+              <li>Workbench
+              <li>Plugin System
+              <li>Server
+                <ul>
+                  <li>File Management (Filesystem server)
+                  <li>User Management (Authorization and ACL server)
+                  <li>Feedback and Collaboration (Notification server)
+                </ul>
+              <li>Test Tool
+                <ul>
+                  <li>Automated UI Testing
+                </ul>
+            </ul>
+        </ul>
+        </article>
+      </section>
+    </section>
+
+    <section data-background="#8c4738" data-background-transition="slide">
+      <h2 class="segue" style="position: fixed; left: 640px; top: 50%;">What's Next</h2>
+
+      <hgroup>
+        <h1></h1>
+        <h2>It's not at all done.</h2>
+      </hgroup>
+      <article>
+      <ul>
+        <li>Platforms to be supported (PoC)
+          <ul>
+            <li>Tizen
+            <li>IoT
+            <li>iOS
+          </ul>
+        <li>Supports UI Prototyper shipment
+          <ul>
+            <li>Notification, Data store
+          </ul>
+        <li>Test Tool
+          <ul>
+            <li>Direct UI recording
+          </ul>
+        <li>Weak link with other groups
+          <ul>
+            <li>DIBS 3.0 Test, VM Web Shell, Live Reload
+          </ul>
+      </ul>
+      </article>
+    </section>
+
+    <section data-background="#8c4738" data-background-transition="slide">
+      <h2>Demo Day</h2>
+
+      <hgroup>
+        <h1></h1>
+        <h2></h2>
+      </hgroup>
+      <article>
+      <ul class="strong">
+        <li>Mobile Support (7 min)
+          <ul>
+            <li>Build/Download/WEINRE
+            <li>Cordova Run
+            <li><span style="text-decoration: line-through;">External Chrome</span>
+          </ul>
+        <li>Test Tool (10 min)
+      </ul>
+      </article>
+    </section>
+
+    <section>
+      <h2>What We Are Trying to Achieve</h2>
+      <div>
+          <ul>
+              <li>Short term</li>
+              <ul>
+                  <li>Continuity of on-going project</li>
+                  <ul>
+                      <li>Web-based Tizen SDK</li>
+                      <li>SDS integrated UI development env.</li>
+                  </ul>
+              </ul>
+              <li>Long term</li>
+              <ul>
+                  <li>Basic technology research toward IT trend</li>
+                  <li>
+                      <span>Collaboration culture with other group</span>
+                      <br>
+                  </li>
+                  <ul>
+                      <li>
+                          <span>IoT open device/service/development platform</span>
+                      </li>
+                      <li>Platform &amp; eco-system service</li>
+                  </ul>
+              </ul>
+          </ul>
+          <br>
+      </div>
+    </section>
+
+    <section>
+        <h1>THE END</h1>
+        <h3>Make better world by hacking!</h3>
+    </section>
+  </div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+</body>
+</html>
