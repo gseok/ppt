@@ -1,0 +1,11 @@
+server start
+sudo -u webida node app.js
+
+
+exportUIPProject
+
+curl -i -X POST -H 'Content-Type:application/json' -d '{"s":"ekF4bYgLW/UIP-SnapshotTEST/exportZip/test", "t":"d", "r":"page-runner.js", "m":"file-id-mapper.js"}' https://exportZip.webida.net/exportUIPProject
+
+
+
+deploy

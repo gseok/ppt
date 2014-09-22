@@ -1,0 +1,17 @@
+{
+    "name": "exportZip",
+    "description": "export uip project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "3.x",
+        "async": "0.x",
+        "asyncjs": "0.x",
+        "underscore": "1.x",
+        "fs-extra": "0.x",
+        "walkdir": "0.x",
+        "htmlparser2": "3.x",
+        "archiver": "0.x",
+        "nodemon": "1.x"
+    }
+}
