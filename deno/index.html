@@ -19,6 +19,28 @@
       .my_orange { color: #f5a442; }
       .my_purple { color: purple; }
       .my_left { float: right; }
+      .reveal img {
+        max-height: 450px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4,
+      .reveal h5,
+      .reveal h6 {
+        margin: 0 0 20px 0;
+        color: #eee8d5;
+        font-family: "League Gothic", Impact, sans-serif;
+        line-height: 0.9em;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        text-shadow: none;
+      }
+      li {
+        font-size: XX-LARGE;
+      }
     </style>
   </head>
   <body>
@@ -682,23 +704,17 @@
               <li>You can use import maps with the --import-map=&ltFILE&gt CLI flag.</li>
             </ul>
             <pre data-id="code">
-              <div>import_map.json</div>
               <code class="hljs" data-trim>
+                // mport_map.json
                 {
                   "imports": {
                       "fmt/": "https://deno.land/std@0.100.0/fmt/"
                   }
                 }
-              </code>
-
-              <div>color.ts</div>
-              <code class="hljs" data-trim>
+                // color.ts
                 import { red } from "fmt/colors.ts";
                 console.log(red("hello world"));
-              </code>
-
-              <div>run</div>
-              <code class="hljs" data-trim>
+                // run
                 $ deno run --import-map=import_map.json color.ts
               </code>
             </pre>
@@ -782,12 +798,11 @@
             <h2>Deno Typescript</h2>
             <h3><a href="https://deno.land/manual@v1.11.5/typescript/runtime">runtime-compile</a></h3>
             <pre data-id="code">
-              <div>deno run</div>
               <code class="hljs" data-trim>
+                // deno run
                 > deno run mod.ts
-              </code>
-              <div>You could do something similar with Deno.emit():</div>
-              <code class="hljs" data-trim>
+
+                // You could do something similar with Deno.emit():
                 try {
                   const { files } = await Deno.emit("mod.ts");
                   for (const [fileName, text] of Object.entries(files)) {
