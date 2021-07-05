@@ -1,0 +1,1139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="../lib/revealjs/reset.css">
+    <link rel="stylesheet" href="../lib/revealjs/reveal.css">
+    <link rel="stylesheet" href="../lib/revealjs/theme/moon.css" id="theme">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="../lib/revealjs/plugin/highlight/monokai.css">
+
+    <!-- custom class -->
+    <style>
+      .my_red { color: red; }
+      .my_orange { color: #f5a442; }
+      .my_purple { color: purple; }
+      .my_left { float: right; }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 시작 -->
+        <section data-auto-animate>
+          <h2>Deno</h2>
+          <image width="300" height="300" src='https://raw.githubusercontent.com/denolib/high-res-deno-logo/master/deno_hr_circle.svg'></image>
+          <div>gseok.seo@gmail.com<br>July 01, 2021</div>
+        </section>
+
+        <!-- Deno 란? -->
+        <section data-auto-animate>
+          <h3>Deno란?</h3>
+          <ul>
+            <li>A <b class="my_red">secure runtime</b> for <b class="my_orange">JavaScript</b> and <b class="my_orange">TypeScript.</b></li>
+            <li>node → deno (Anagram), 데노 → 디노</li>
+            <li>Node.js의 창립자인 Ryan Dahl(라이언 달)이 2019.04 (JS Fest 2019 Spring 컨퍼런스에서 발표)</li>
+            <li>2020년 5월 13일 버전 1.0이 출시</li>
+          </ul>
+          <aside class="notes">
+          </aside>
+        </section>
+
+        <!-- Deno 기반 기술 -->
+        <section data-auto-animate data-markdown>
+          <script type="text/template">
+            ### Deno 기반 기술
+            - V8 JavaScript Runtime
+            - Rust (C++를 대체)
+            - Tokio (이벤트 루프로 사용)
+            - TypeScript
+          </script>
+          <aside class="notes">
+          </aside>
+        </section>
+
+        <!-- Deno 탄생 배경 -->
+        <section data-auto-animate>
+          <!-- Deno 탄생 배경 요약 -->
+          <section data-auto-animate>
+            <h3>Deno 탄생 배경</h3>
+            <ul>
+              <li>Node에서의 실수?!</li>
+              <ul>
+                <li>중앙 집중형 모듈 시스템</li>
+                <li>추가 지원이 필요한 legacy API들</li>
+                <li>빈약한 보안</li>
+              </ul>
+              <li>Design Mistakes in Node, 2018 JSConf EU</li>
+              <a href="https://www.youtube.com/watch?v=M3BM9TB-8yA">
+                <small>Node.js 에 관하여 후회하는 것</small>
+              </a><small>,</small>
+              <a href="https://tinyclouds.org/jsconf2018.pdf">
+                <small>pdf 자료</small>
+              </a>
+              <li>Defacto라 node 수정은 힘들다 → 신규로(Deno) 가즈아!</li>
+            </ul>
+            <aside class="notes">
+              Node에서 의도하지 않았던 package.json을 통한 모듈 시스템 및 여러 환경에서의 지원을 위한 노력, 보안 문제등이 Deno의 탄생배경이다.
+            </aside>
+          </section>
+
+          <!-- Design mistakes in node -->
+          <!-- Mistakes1. Not sticking with Promises -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### Not sticking with Promises
+              - 2009년에 promise넣었다가 2010년에 빼버림
+              - async/await 이렇게 빨리 도입되고 표준화 될줄 예측 못함
+            </script>
+            <aside class="notes">
+              라이언달은, promise를 넣지 않은게 후회되지만, 어찌보면 node에서 어째껀 다양한 async api들이 발전? 하는
+              계기? 인거 같가도 하고... 아무튼 후회한다고함.
+            </aside>
+          </section>
+
+          <!-- Mistakes2. Security -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### Security
+              - v8이 그 자체로 훌륭한 security sandbox
+              - 그런데 node는 모든걸 뚤어나서 0 security
+              - v8의 훌륭한 sandbox을 활용 가능 하게 했다면...
+            </script>
+            <aside class="notes">
+              - node 프로그램은 모든 system call에 access 가능 따하서 0 security
+              - v8의 sandbox을 잘 활용했다면, security가 강화된 안전한 server side runtime이 되었을텐데...
+            </aside>
+          </section>
+
+          <!-- Mistakes3. The build system (GYP) -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### The build system (GYP)
+              - Build system are very difficult and very important
+              - Node using GYP(chrome v8 using GYP)
+              - Later Chrome dropped GYP for GN. But Node using GYP...
+              - It's an awful expeerience for users(node build(GYP))
+            </script>
+            <aside class="notes">
+              - 라이언달이 가장 후회하는것중 하나
+                - node의 가장 큰 기술적 실패중 하나
+              - GYP
+                - C라이브러리가 링크 걸린 모듈을 작성하면 GYP을 통해서, C lib컴파일하고 Node에 링크
+              - V8(via chrome) started using GYP and I switched Node over in tow.
+              - Later Chrome dropped GYP for GN. Leaving Node the sole GYP user.
+                - 예측하지 못했는데, GYP -> GN으로 바뀜
+              - GYP 최악.. 파이선에서 JSON파일을 쓰는듯한.. 최악의 interface...
+                - 이게 바로 node-gyp임.
+                - 레이어를 레이러로 감싸서 엄청 복잡하다!
+                - v8은 GYP 버렸는데.. node때문에 GYP wrapper지원?!
+            </aside>
+          </section>
+
+          <!-- Mistakes4. The build system (GYP) -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### The build system (GYP)
+              - GYP 을 계속 사용하는건 Node Core의 큰 실수중 하나다.
+              - foreing function interface (FFI) 으로 갔어야 한다.
+              - 이미 많은 사람이 FFI로 가야한다고 조언했으나 무시해었다 너무 후회된다.
+            </script>
+            <aside class="notes">
+              - The continued usage of GYP is the probably largest failure of Node core.
+              - Instead of guiding user to write C++ binding to v8, I should have provided a core foreing function interface (FFI).
+              - May people, early on, suggested moving to an FFI and regrettable I ignored them.
+              - 라이언달: 이건 난제다!
+                - 이미 노드가 지원하는 소프트웨어가 많은데, 얘들이 각각 확장 모듈 컴파일이 필요하다고 그냥 결정
+                - 외부 함수 인터페이스로 컴파일 없이도 가능했을듯?
+                - 이미 이런 조언을 받았었는데 '라이언달' 본인이 무시했었다고 밝힘.
+                - libuv는 autotools로 들어옴... 너무 후회된다
+            </aside>
+          </section>
+
+          <!-- Mistakes5. Package.json -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### Package.json
+              - package.json 은 node.js 프로그램의 필수가 되었다.
+              - npm을 node.js에 포함해서 결국 npm이 node standard가 되었다.
+            </script>
+            <aside class="notes">
+              - Isaac, in NPM, invented package.json.
+              - Node's require() to to inspect package.json files for 'main'.
+              - Ultimately I included NPM in the Node distribution, which much made it the defacto standard.
+            </aside>
+          </section>
+
+          <!-- Mistakes5. Package.json -->
+          <section data-auto-animate>
+            <h2>Node mistakes</h2>
+            <h3>Package.json</h3>
+            <image src='./1.png'></image>
+            <aside class="notes">
+              - node에서 어떤 모듈을 require하려면 반드시 package.json에 명시되야함
+              - node_modules 라는 폴더가 있어야 함
+            </aside>
+          </section>
+
+          <!-- Mistakes6. Package.json -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### Package.json
+              - package.json은 컨셉으로, "module"이 디렉토리 파일 형태가 됨.
+              - 이건 web에선 없는 개념 & 제약이고 불필요한 추상화이다.
+              - package.json에 불필요한 정보를 써야한다.
+                - License? Repository? Description?
+                - 나는 단지 lib을 link하고 싶을 뿐인데?
+              - import 하려는 file or url와 version만 있으면 dep list을 작성할 필요가 있나?
+            </script>
+            <aside class="notes">
+              - 디렉포리 파일이 아니라 원래 javascript는 여기저기 script tag로 넣었었는데 개념이 이생해짐.
+              - This is not a strictly necessary abstraction - and one that doesn't exist on the web.
+              - If only relative file and urls were used when importing, the path defines the version. There is no need to list dependencies.
+            </aside>
+          </section>
+
+          <!-- Mistakes7. Package.json -->
+          <section data-auto-animate>
+            <h2>Node mistakes</h2>
+            <h3>Package.json</h3>
+            <image src='./2.png'></image>
+            <aside class="notes">
+              - 로컬 프로젝트의 폴더에 모듈이 설치되고, 여러개의 프로젝트가 있다면?
+              - node_modules라는 폴더가 또 있어야함
+            </aside>
+          </section>
+
+          <!-- Mistakes8. node_modules -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### node_modules
+              - 겁나게 복잡한 module resolution algorithm.
+              - node_modules 폴더에 vendered-by-default 설치 문제.
+                - 의도는 좋지만, 연결하는 상대가 어떤건지 모름.
+              - 브라우저 작동방식에서 너무 벋어났다.
+                - 라이언달: 너무 미안해요. 제잘못이에요. 근데 지금 못고쳐요...
+            </script>
+            <aside class="notes">
+              - 모듈 이름형태의 resolving 알고리즘은 그냥 미쳣다. 너무 복잡.
+              - node_modules 폴더에 vendered-by-default(3rd party라이브러리를 같이 디폴트 설치).
+                - NODE_PATH, PYTHON_PATH같이 환경변수 형태로 할껄 후회중.
+            </aside>
+          </section>
+
+          <!-- Mistakes9. require('module') without the extension '.js' -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### require('module') without the extension '.js'
+              - 확장자 안주고 require쓰는건 너무 불문명하다.
+              - 모듈 로더가, 파일시스템에 너무 많이 물어봐야함. is '.js?', '.ts?', '.jsx?', ...
+              - 브라우저 기본 동작도 아니다.
+                - script tag에 src에 '.js' 빼고 쓰냐?
+
+            </script>
+            <aside class="notes">
+              - 파일시스템에 이거저거 물어보고 다녀야 한다.
+              - 그냥 extension쓰자!
+            </aside>
+          </section>
+
+          <!-- Mistakes10. index.js -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### index.js
+              - I though it was cute, because there was index.html ...
+                - 디렉토리 include시에 index.js살펴보면 좋을줄...
+              - 불필요한 도입이었다. 모듈시스템만 복잡하게 만듬.
+              - package.json들어오면서 더이상해짐 main명시도 있는데?.
+            </script>
+            <aside class="notes">
+              - 미안하다. 이러면 귀여울줄 알았다.
+              - 필요해보이지 않는데.. 귀여워 보이면 추가하지 말라. 하면 나중에 후회함.
+              - I thought it was cute, because there was index.html ...
+              - It needlessly complicated the module loading system.
+              - It became especially unnecessary after require supported package.json.
+            </aside>
+          </section>
+
+          <!-- Mistakes11. 정리 -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Node mistakes
+              ### 정리해보면(라이언달이 생각한)
+              - Node의 문제는, 모듈시스템이나, 사용자 코드관리 같은 주변 문제다.
+              - 이 문제의 원인은, Node만들때, Event driven I/O 문제에 더 집중해서다.
+              - 모듈 시스템은 사실 뒷전이었다.
+              - 그럼 만약에 지금 node을 만든다면 어떻게 할껀가? → Deno
+            </script>
+            <aside class="notes">
+              - My problems with Node are almost entirely around
+              how it manages user code.
+              - In contrast to the focus on evented I/O early on,
+              the module system was essentially an afterthought.
+              - With this in mind, I have long thought about how it
+              could be done better....
+            </aside>
+          </section>
+        </section>
+
+        <!-- Deno Feature & 철학 & 목표 -->
+        <section data-auto-animate>
+          <!-- Deno 핵심 Feature -->
+          <section data-auto-animate>
+            <h3>Deno 핵심 Feature</h3>
+            <ul>
+              <li><b class="my_red">Secure by default.</b> No file, network, or environment access (unless explicitly enabled).</li>
+              <li>Supports <b class="my_orange">TypeScript</b> out of the box.</li>
+              <li>Ships a single executable (<b class="my_purple">deno</b>).</li>
+              <li>Has built-in utilities like a dependency inspector (<b class="my_purple">deno info</b>) and a code formatter (<b class="my_purple">deno fmt</b>).</li>
+              <li>Has <a href="https://github.com/denoland/deno_std">a set of reviewed (audited) standard modules</a> that are guaranteed to work with Deno.</li>
+              <li>Can bundle scripts into a single JavaScript file.</li>
+            </ul>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Deon 철학 & 목표 -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ### Deno Philosophy and Goals
+              - Deno aims to be a productive and secure scripting environment for the modern programmer.
+              - Deno Ship as just a single executable (deno).
+              - Deno explicitly takes on the role of both runtime and package manager
+              - Be browser-compatible. (Not used Deno namespace)
+              - Provide built-in tooling to improve developer experience.
+              - Keep V8 concepts out of user land
+              - Serve HTTP efficiently
+            </script>
+            <aside class="notes">
+            </aside>
+          </section>
+        </section>
+
+        <!-- Deno vs Node.js-->
+        <section data-auto-animate>
+          <!-- Deno vs Node.js -->
+          <section data-auto-animate>
+            <h3>Deno vs Node.js</h3>
+            <ul>
+              <li>Deno does <b class="my_orange">not use npm</b>.</li>
+              <li>Deno does <b class="my_orange">not use package.json</b> in its module resolution algorithm.</li>
+              <li>All async actions in <b class="my_orange">Deno return a promise</b>.</li>
+              <ul>
+                <li>내장 async api는 모두 promise</li>
+                <li>Top level await</li>
+              </ul>
+              <li>Deno requires explicit <b class="my_orange">permissions</b> for file, network, and environment access.</li>
+              <li>Deno uses <b class="my_orange">"ES Modules"</b> and does not support require().</li>
+              <ul>
+                <li>Third party modules are imported via URLs</li>
+              </ul>
+            </ul>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Deno vs Node.js 비교표 -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ### Deno vs Node.js
+              ||Node.js|Deno|
+              |-|-|-|
+              |Engine|V8|V8|
+              |Written in|C++, JavaScript| Rust, TypeScript|
+              |Package managing|npm|uses URLs|
+              |importing package|CommonJS|ESM|
+              |Security|full access|permissioned access|
+              |TypeScript support|not build in|built-in|
+            </script>
+            <aside class="notes">
+            </aside>
+          </section>
+        </section>
+
+        <!-- Deno Architecture -->
+        <section data-auto-animate>
+          <!-- Deno like an os -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno Architecture
+              ### Deno is like an OS
+              |Linux|Deno|
+              |-|-|
+              |Processes|Web Workers|
+              |System call|Ops|
+              |File descriptors(fd)|Resource ids(rid)|
+              |Scheduler|Tokio|
+              |Userland: libc++/glib/boost|deno_std|
+              |/proc/$$/stat|deno.metrics()|
+              |man page|deno-types|
+            </script>
+            <aside class="notes">
+              참고: https://deno.land/manual@v1.11.4/contributing/architecture
+            </aside>
+          </section>
+
+          <!-- resource -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno Architecture
+              ### Deno resource(rid)
+              ```javascript
+              console.log(Deno.resources());
+              // { 0: "stdin", 1: "stdout", 2: "stderr" }
+              Deno.close(0);
+              console.log(Deno.resources());
+              // { 1: "stdout", 2: "stderr" }
+              ```
+            </script>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Metrics -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno Architecture
+              ### Deno Metrics
+              ```
+              > console.table(Deno.metrics())
+              ┌─────────────────────────┬───────────┐
+              │          (idx)          │  Values   │
+              ├─────────────────────────┼───────────┤
+              │      opsDispatched      │    9      │
+              │    opsDispatchedSync    │    0      │
+              │   opsDispatchedAsync    │    0      │
+              │ opsDispatchedAsyncUnref │    0      │
+              │      opsCompleted       │    9      │
+              │    opsCompletedSync     │    0      │
+              │    opsCompletedAsync    │    0      │
+              │ opsCompletedAsyncUnref  │    0      │
+              │    bytesSentControl     │   504     │
+              │      bytesSentData      │    0      │
+              │      bytesReceived      │   856     │
+              └─────────────────────────┴───────────┘
+              ```
+            </script>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Schematic diagram -->
+          <section data-auto-animate>
+            <h2>Deno Architecture</h2>
+            <h3>Deno Schematic diagram</h3>
+            <image src='./3.png'></image>
+            <aside class="notes">
+            </aside>
+          </section>
+        </section>
+
+        <!-- Deno Runtime -->
+        <section data-auto-animate>
+          <!-- Deno Runtime -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno Runtime
+              - REPL
+              - Program lifecycle
+              - Permission APIs
+              - Web Platform APIs
+              - HTTP Server APIs
+              - Location API
+              - Web Storage API
+              - Workers
+            </script>
+          </section>
+
+          <!-- Deno Runtime REPL -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno Runtime
+              ### REPL(Read–eval–print loop)
+              ```
+              > 1 + 2
+              3
+              > console.log('hello')
+              hello
+              ```
+            </script>
+          </section>
+
+          <!-- Deno Runtime Program lifecycle -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno Runtime
+              ### [Program lifecycle(browser-compatible)](https://deno.land/manual@v1.11.5/runtime/program_lifecycle)
+              - deno supports browser compatible lifecycle events
+                - load and unload.
+                - You can use these events to provide setup and cleanup code in your program.
+
+              ```typeScript
+              import "./imported.ts";
+              const handler = (e: Event): void => {
+                console.log(`got ${e.type} event in event handler (main)`);
+              };
+              window.addEventListener("load", handler);
+              window.addEventListener("unload", handler);
+              window.onload = (e: Event): void => {
+                console.log(`got ${e.type} event in onload function (main)`);
+              };
+              window.onunload = (e: Event): void => {
+                console.log(`got ${e.type} event in onunload function (main)`);
+              };
+              console.log("log from main script");
+
+              ```
+            </script>
+            <aside class="notes">
+              Note that you can use both `window.addEventListener` and `window.onload`/`window.onunload` to define handlers for events. There is a major difference between them, let's run the example:
+
+              ```
+              $ deno run main.ts
+              log from imported script
+              log from main script
+              got load event in event handler (imported)
+              got load event in event handler (main)
+              got load event in onload function (main)
+              got unload event in event handler (imported)
+              got unload event in event handler (main)
+              got unload event in onunload function (main)
+              ```
+            </aside>
+          </section>
+
+          <!-- Deno Runtime Permission -->
+          <section data-auto-animate>
+            <h2>Deno Runtime</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/runtime/permission_apis">Permission(Secure)</a></h3>
+            <ul>
+              <li>cat.js</li>
+              <pre data-id="code">
+                <code class="hljs" data-trim>
+                console.log(Deno.args);
+                const filename = Deno.args[0];
+                const text = Deno.readTextFile(filename);
+                text.then((response) => console.log(response));
+                </code>
+              </pre>
+              <li>run</li>
+              <pre data-id="code">
+                <code class="hljs" data-trim>
+                  ~/deno> deno run ./cat.js /etc/passwd
+                  ["/etc/passwd" ]
+                  error: Uncaught (in promise) PermissionDenied: Requires read access to
+                          "/etc/passwd", run again with the --allow-read flag
+                </code>
+              </pre>
+              <li>
+                permission state: "granted", "prompt" or "denied"
+              </li>
+              <div><a href='https://deno.land/manual@v1.11.4/getting_started/permissions#permissions-list'><small>ref: permission list</small></a></div>
+            </ul>
+
+            <aside class="notes">
+              - Deno 는 보안이 강화되었다. permissions개념이 들어오고, sendbox형태로 구동한다.
+              - resouce들에 대한 permissions을 실행 시점에 받거나, 실행후 받게 되어 있다.
+            </aside>
+          </section>
+
+          <!-- Deno Runtime HTTP Server1 -->
+          <section data-auto-animate>
+            <h2>Deno Runtime</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/runtime/http_server_apis">HTTP Server</a></h3>
+            <pre data-id="code">
+              <code data-line-numbers="1" class="hljs" data-trim>
+                import { serve } from "https://deno.land/std@0.100.0/http/server.ts";
+                const server = serve({ port: 8000 });
+                console.log("http://localhost:8000/");
+                for await (const req of server) {
+                  req.respond({ body: "Hello World\n" });
+                }
+              </code>
+            </pre>
+            <aside class="notes">
+            </aside>
+          </section>
+          <!-- Deno Runtime HTTP Server2 -->
+          <section data-auto-animate>
+            <h2>Deno Runtime</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/runtime/http_server_apis">HTTP Server</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                > deno run —allow-net http_server.ts
+                Hello World
+              </code>
+            </pre>
+            <image src='./4.png'></image>
+            <aside class="notes">
+              - url 형태로 import한 모듈을 run시점에 받는다. 한번 받고 나면 cache된다.
+            </aside>
+          </section>
+          <!-- Deno Runtime HTTP Server3 -->
+          <section data-auto-animate>
+            <h2>Deno Runtime</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/runtime/http_server_apis">HTTP Server</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                > deno info ./http_server.ts
+                ...
+              </code>
+            </pre>
+            <image src='./5.png'></image>
+            <aside class="notes">
+              - deno info로 dep 및 path위치를 확인 할 수 있다.
+            </aside>
+          </section>
+
+          <!-- Deno Runtim Location -->
+          <section data-auto-animate>
+            <h2>Deno Runtime</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/runtime/location_api">Location</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                // deno run --location https://example.com/path main.ts
+
+                console.log(location.href);
+                // "https://example.com/path"
+              </code>
+            </pre>
+            <pre data-id="code2">
+              <code class="hljs" data-trim>
+                // deno run --location https://example.com/index.html --allow-net main.ts
+
+                const worker = new Worker("./workers/hello.ts", { type: "module" });
+                // Fetches worker module at "https://example.com/workers/hello.ts".
+              </code>
+            </pre>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Deno Runtim Web Storage -->
+          <section data-auto-animate>
+            <h2>Deno Runtime</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/runtime/web_storage_api">Web Storage</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                // localStorage
+                localStorage.setItem("myDemo", "Deno App");
+                const cat = localStorage.getItem("myDemo");
+                localStorage.removeItem("myDemo");
+                localStorage.clear();
+              </code>
+            </pre>
+            <small>
+              As of Deno 1.10, the Web Storage API (localStorage & sessionStorage).
+            </small>
+            <aside class="notes">
+              As of Deno 1.10, the Web Storage API (localStorage & sessionStorage) was introduced, which through localStorage allows persistent storage, whereas sessionStorage is a non-persistent memory-based storage.
+            </aside>
+          </section>
+        </section> <!-- Deno Runtime close -->
+
+        <!-- Deno Linking to external code -->
+        <section data-auto-animate>
+          <!-- Deno Linking to external code - reloading -->
+          <section data-auto-animate>
+            <h2>Deno Linking to external code</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/linking_to_external_code/reloading_modules">Reloading modules</a></h3>
+            <ul>
+              <li>By default, a module in the cache will be reused without fetching or re-compiling it.</li>
+              <li>You can invalidate your local <b class="my_orange">DENO_DIR</b> cache using the <b class="my_orange">--reload</b> flag</li>
+            </ul>
+            <pre data-id="code">
+              <div>To reload everything<div>
+              <code class="hljs" data-trim>
+                deno cache --reload my_module.ts
+              </code>
+            </pre>
+            <pre data-id="code">
+              <div>To reload specific modules</div>
+              <code class="hljs" data-trim>
+                // To reload all \0.100.0 standard modules:
+                deno cache --reload=https://deno.land/std@0.100.0 my_module.ts
+
+                // To reload specific modules
+                deno cache --reload=https://deno.land/std@0.100.0/fs/copy.ts,https://deno.land/std@0.100.0/fmt/colors.ts my_module.ts
+              </code>
+            </pre>
+          </section>
+
+          <!-- Deno Linking to external code - reloading -->
+          <section data-auto-animate>
+            <h2>Deno Linking to external code</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/linking_to_external_code/import_maps">import map</a></h3>
+            <ul>
+              <li>Deno supports <a href="https://github.com/WICG/import-maps">import maps.</a></li>
+              <li>You can use import maps with the --import-map=&ltFILE&gt CLI flag.</li>
+            </ul>
+            <pre data-id="code">
+              <div>import_map.json</div>
+              <code class="hljs" data-trim>
+                {
+                  "imports": {
+                      "fmt/": "https://deno.land/std@0.100.0/fmt/"
+                  }
+                }
+              </code>
+
+              <div>color.ts</div>
+              <code class="hljs" data-trim>
+                import { red } from "fmt/colors.ts";
+                console.log(red("hello world"));
+              </code>
+
+              <div>run</div>
+              <code class="hljs" data-trim>
+                $ deno run --import-map=import_map.json color.ts
+              </code>
+            </pre>
+          </section>
+        </section>
+
+        <!-- Deno Typescript -->
+        <section data-auto-animate>
+          <!-- Deno Typescript overview -->
+          <section data-auto-animate>
+            <h2>Deno Typescript</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/typescript/overview">overview</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                > deno info
+                DENO_DIR location: "/path/to/cache/deno"
+                Remote modules cache: "/path/to/cache/deno/deps"
+                TypeScript compiler cache: "/path/to/cache/deno/gen"
+              </code>
+            </pre>
+            <ul>
+              <li>Deno 내부에서 ts -> js 로 컴파일하여 변경한다.</li>
+              <li>즉 Deno에 tsc가 내장되어 있다.</li>
+              <li>컴파일된 내용은 cache에 저장되고, next run에서는 이미 컴파일된값을 사용한다</li>
+            </ul>
+            <aside class="notes">
+              - At a high level, Deno converts TypeScript (as well as TSX and JSX) into JavaScript
+              - It does this via a combination of the TypeScript compiler, which we build into Deno, and a Rust library called swc
+              - When the code has been type checked and transformed, it is stored in a cache
+            </aside>
+          </section>
+
+          <!-- Deno Typescript config -->
+          <section data-auto-animate>
+            <h2>Deno Typescript</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/typescript/configuration">configuration</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                > deno run --config ./tsconfig.json main.ts
+              </code>
+            </pre>
+            <ul>
+              <li>기본 static형태로 tsconfig가 적용되어있다.</li>
+              <li>위와 같이 사용자 tsconfig을 추가 할 수 있다.</li>
+            </ul>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Deno Typescript types -->
+          <section data-auto-animate>
+            <h2>Deno Typescript</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/typescript/types">types</a></h3>
+            <pre data-id="code">
+              <div>Providing types when importing</div>
+              <code class="hljs" data-trim>
+                // @deno-types="./coolLib.d.ts"
+                import * as coolLib from "./coolLib.js";
+              </code>
+            </pre>
+            <pre data-id="code">
+              <div>Providing types when hosting - Using the triple-slash reference directive</div>
+              <code class="hljs" data-trim>
+                /// <reference types="./coolLib.d.ts"></reference>
+                // ... the rest of the JavaScript ...
+              </code>
+              <div>Providing types when hosting - Using X-TypeScript-Types header</div>
+              <code class="hljs" data-trim>
+                HTTP/1.1 200 OK
+                Content-Type: application/javascript; charset=UTF-8
+                Content-Length: 648
+                X-TypeScript-Types: ./coolLib.d.ts
+              </code>
+            </pre>
+            <aside class="notes">
+            </aside>
+          </section>
+
+          <!-- Deno Typescript runtime compile -->
+          <section data-auto-animate>
+            <h2>Deno Typescript</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/typescript/runtime">runtime-compile</a></h3>
+            <pre data-id="code">
+              <div>deno run</div>
+              <code class="hljs" data-trim>
+                > deno run mod.ts
+              </code>
+              <div>You could do something similar with Deno.emit():</div>
+              <code class="hljs" data-trim>
+                try {
+                  const { files } = await Deno.emit("mod.ts");
+                  for (const [fileName, text] of Object.entries(files)) {
+                    console.log(`emitted ${fileName} with a length of ${text.length}`);
+                  }
+                } catch (e) {
+                  // something went wrong, inspect `e` to determine
+                }
+              </code>
+            </pre>
+            <ul>
+              <li>즉 dynamic typescript run이 가능하다.</li>
+              <li>type-check, bundle, import-map등도 동적으로 가능하다.</li>
+            </ul>
+            <aside class="notes">
+            </aside>
+          </section>
+        </section> <!-- Deno Typescript close -->
+
+        <!-- Deno std lib -->
+        <section data-auto-animate>
+          <section data-auto-animate>
+            <h2>Deno Standard Library</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/standard_library">standard library</a></h3>
+            <ul>
+              <li>외부 의존성이 없고, 이를통해 '의존성 지옥' 문제를 일부 해결한다.</li>
+              <li>모든 코드는, 라이언달 or stdlib팀이 리뷰한다</li>
+              <ul>
+                <li>즉 최소한의 보장을 해주겠다.!</li>
+              </ul>
+              <li>각 모듈의 version도 가능하다.</li>
+              <li>Standard library is available at: <a href="https://deno.land/std/">https://deno.land/std/</a></li>
+            </ul>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Deno Standard Library</h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/standard_library">standard library</a></h3>
+            <pre data-id="code">
+              <div>Versioning and stability</div>
+              <code class="hljs" data-trim>
+                // import the latest release, this should be avoided
+                import { copy } from "https://deno.land/std/fs/copy.ts";
+              </code>
+              <div>used a version of the std library which is immutable and will not change:</div>
+              <code class="hljs" data-trim>
+                // imports from v0.100.0 of std, never changes
+                import { copy } from "https://deno.land/std@0.100.0/fs/copy.ts";
+              </code>
+            </pre>
+          </section>
+        </section> <!-- Deno std lib close -->
+
+        <!-- Deno Tools -->
+        <section data-auto-animate>
+          <!-- Deno Tools overview -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno [tools](https://deno.land/manual@v1.11.5/tools)
+              - [bundler (`deno bundle`)](https://deno.land/manual@v1.11.5/tools/bundler)
+              - [compiling executables (`deno compile`)](https://deno.land/manual@v1.11.5/tools/compiler)
+              - [installer (`deno install`)](https://deno.land/manual@v1.11.5/tools/script_installer)
+              - [dependency inspector (`deno info`)](https://deno.land/manual@v1.11.5/tools/dependency_inspector)
+              - [documentation generator (`deno doc`)](https://deno.land/manual@v1.11.5/tools/documentation_generator)
+              - [formatter (`deno fmt`)](https://deno.land/manual@v1.11.5/tools/formatter)
+              - [repl (`deno repl`)](https://deno.land/manual@v1.11.5/tools/repl)
+              - [test runner (`deno test`)](https://deno.land/manual@v1.11.5/testing)
+              - [linter (`deno lint`)](https://deno.land/manual@v1.11.5/tools/linter)
+            </script>
+          </section>
+
+          <!-- Deno Tools script installer -->
+          <section data-auto-animate>
+              <h2>Deno <a href="https://deno.land/manual@v1.11.5/tools">tools</a></h2>
+              <h3><a href="https://deno.land/manual@v1.11.5/tools/script_installer">script-installer</a></h3>
+              <pre data-id="code">
+                <div>기존 node처럼 single script program형태로 사용 가능하게 제공되고 있다.</div>
+                <code class="hljs" data-trim>
+                  $ deno install --allow-net --allow-read https://deno.land/std@0.100.0/http/file_server.ts
+                  [1/1] Compiling https://deno.land/std@0.100.0/http/file_server.ts
+
+                  ✅ Successfully installed file_server.
+                  /Users/deno/.deno/bin/file_server
+                </code>
+                <div>&nbsp</div>
+                <div>-n, --name으로 이름을 변경해서 설치도 가능하다</div>
+                <code class="hljs" data-trim>
+                  deno install --allow-net --allow-read -n serve https://deno.land/std@0.100.0/http/file_server.ts
+                </code>
+                <div>&nbsp</div>
+                <div>사용자정의 cli script생성을 쉽게해주는 example도 있다.</div>
+                <code class="hljs" data-trim>
+                  // https://example.com/awesome/cli.ts
+                  async function myAwesomeCli(): Promise&ltvoid&gt {
+                    -- snip --
+                  }
+
+                  if (import.meta.main) {
+                    myAwesomeCli();
+                  }
+                  When you create an executable script make sure to let users know by adding an example installation command to your repository:
+
+                  # Install using deno install
+
+                  $ deno install -n awesome_cli https://example.com/awesome/cli.ts
+                </code>
+              </pre>
+          </section>
+
+          <!-- Deno Tools bundler -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno [tools](https://deno.land/manual@v1.11.5/tools)
+              ### [Bundler](https://deno.land/manual@v1.11.5/tools/bundler)
+              ```
+              > deno bundle https://deno.land/std@0.100.0/examples/colors.ts colors.bundle.js
+              Bundle https://deno.land/std@0.100.0/examples/colors.ts
+              Download https://deno.land/std@0.100.0/examples/colors.ts
+              Download https://deno.land/std@0.100.0/fmt/colors.ts
+              Emit "colors.bundle.js" (9.83KB)
+              ```
+              - ```deno bundle [URL]``` will output a single JavaScript file.
+              - The output is a self contained ES Module.
+              - The bundle can just be run as any other module in Deno would.
+              - Bundles can also be loaded in the web browser.
+            </script>
+          </section>
+
+          <!-- Deno Tools doc gen -->
+          <section data-auto-animate data-markdown>
+            <script type="text/template">
+              ## Deno [tools](https://deno.land/manual@v1.11.5/tools)
+              ### [Documentation Generator](https://deno.land/manual@v1.11.5/tools/documentation_generator)
+              ```
+              /**
+               * Adds x and y.
+               * @param {number} x
+               * @param {number} y
+               * @returns {number} Sum of x and y
+               */
+              export function add(x: number, y: number): number {
+                return x + y;
+              }
+              ```
+              - ```deno doc```을 제공하며, JsDoc형태로 print하는 기능이 내장되어 있다.
+              - ```--json``` flag을 사용하면 JSON형태로 output할 수 있다.
+              - JSON output은 [deno doc website](https://github.com/denoland/doc_website) 을 이용하여 module doc을 서빙할 수 있다.
+            </script>
+          </section>
+
+          <!-- Deno Tools test -->
+          <section data-auto-animate>
+            <h2>Deno <a href="https://deno.land/manual@v1.11.5/tools">tools</a></h2>
+            <h3><a href="https://deno.land/manual@v1.11.5/testing/assertions">Testing</a></h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                import { assert } from "https://deno.land/std@0.100.0/testing/asserts.ts";
+
+                Deno.test("Hello Test", () => {
+                  assert("Hello");
+                });
+              </code>
+            </pre>
+            <image src='./6.png'></image>
+            <ul>
+              <li>Deno는 standard library로 <a href="https://deno.land/std@0.100.0/testing/asserts.ts">built in assertions module</a>을 제공하고 있다.</li>
+              <li><i>deno test</i>로 간단하게 구동 가능하다.</li>
+            </ul>
+          </section>
+        </section> <!-- Deno Tools close -->
+
+        <!-- Deno performence -->
+        <section data-auto-animate>
+          <section data-auto-animate>
+            <h2>Deno <a href="https://deno.land/benchmarks">Performance</a></h2>
+            <image src='./7.png'></image>
+            <aside class="notes">
+              - 매 commit 마다 테스트하고 있다.
+            </aside>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Deno <a href="https://deno.land/benchmarks">Performance</a></h2>
+            <image src='./8.png'></image>
+          </section>
+        </section>
+
+        <!-- Deno with pm2 -->
+        <section data-auto-animate>
+          <h2>Deno with PM2</h2>
+          <small>ref: <a href="https://stackoverflow.com/questions/62081683/how-to-use-deno-in-production">https://stackoverflow.com/questions/62081683/how-to-use-deno-in-production</a></small>
+          <image src='./9.png'></image>
+        </section>
+
+        <!-- Deno with react SSR -->
+        <section data-auto-animate>
+          <section data-auto-animate>
+            <h2>Deno with react SSR</h2>
+            <small>ref: <a href="https://www.telerik.com/blogs/react-server-side-rendering-deno">https://www.telerik.com/blogs/react-server-side-rendering-deno</a></small>
+            <small>ref: <a href="https://www.sanity.io/guides/server-side-rendering-deno-react">https://www.sanity.io/guides/server-side-rendering-deno-react</a></small>
+            <image src='./11.png'></image>
+            <image src='./10.png'></image>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Deno with react SSR</h2>
+            <h3>dep.ts</h3>
+            <pre data-id="code">
+              <code class="hljs language-typescript" data-trim>
+                // @deno-types="https://denopkg.com/soremwar/deno_types/react/v16.13.1/react.d.ts"
+                import React from "https://jspm.dev/react@17.0.2";
+
+                // @deno-types="https://denopkg.com/soremwar/deno_types/react-dom/v16.13.1/server.d.ts"
+                import ReactDOMServer from "https://jspm.dev/react-dom@17.0.2/server";
+                // @deno-types="https://denopkg.com/soremwar/deno_types/react-dom/v16.13.1/react-dom.d.ts"
+                import ReactDOM from "https://jspm.dev/react-dom@17.0.2";
+                import imageURLBuilder from "https://cdn.skypack.dev/@sanity/image-url@0.140.22";
+                export {
+                  BrowserRouter,
+                  StaticRouter,
+                  Link,
+                  Route,
+                  Switch,
+                } from "https://cdn.skypack.dev/react-router-dom";
+                export { React, ReactDOM, ReactDOMServer, imageURLBuilder };
+              </code>
+            </pre>
+            <ul>
+              <li>React는 multiple import시 에러가 나기 때문에 한군데서 import 하는 처리가 필요함.</li>
+            </ul>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Deno with react SSR</h2>
+            <h3>App.tsx</h3>
+            <pre data-id="code">
+              <code class="hljs" data-trim>
+                import { React } from './dep.ts';
+
+                // @ts-nocheck
+                const App = () => {
+                  const [count] = React.useState(10);
+
+                  const denoIcon = (() => {
+                    const con = [];
+                    for (let i = 0; i < count; i+=1 ) {
+                      const key = `deno_${i}`;
+                      con.push(&ltspan key={key}&gt🦕&lt/span&gt);
+                    }
+                    return &lt&gt{con}&lt/&gt
+                  })();
+
+                  return (
+                    &lt&gt
+                      &ltspan&gtHello Deno With React SSR!!~!!!&lt/span&gt
+                      &ltdiv&gt{denoIcon}&lt/div&gt
+                    &lt/&gt
+                  );
+                };
+
+                export default App;
+              </code>
+            </pre>
+          </section>
+
+          <section data-auto-animate>
+            <h2>Deno with react SSR</h2>
+            <h3>server.tsx</h3>
+            <pre data-id="code">
+              <code class="hljs language-typescript" data-trim>
+                // @ts-nocheck
+                import { serve } from "https://deno.land/std@0.100.0/http/server.ts";
+
+                import { React, ReactDOMServer } from "./dep.ts";
+                import App from "./app.tsx";
+
+                const port: number = 8000;
+                const server = serve({ port });
+
+                for await (const req of server) {
+                  const ssr = ReactDOMServer.renderToString(&ltApp /&gt);
+                  console.log('ssr', ssr);
+                  const body = `
+                  &lt!DOCTYPE html&gt
+                  &lthtml lang="en"&gt
+                  &lthead&gt
+                      &lttitle&gtDeno react SSR&lt/title&gt
+                  &lt/head&gt
+                  &ltbody&gt
+                      &ltdiv&gt${ssr}&lt/div&gt
+                  &lt/body&gt
+                  &lt/html&gt`;
+                  req.respond({ body });
+                }
+
+                console.log(`server is running on port: ${port}`);
+              </code>
+            </pre>
+            <ul>
+              <li>React의 renderToString을 사용한다.</li>
+            </ul>
+          </section>
+        </section> <!-- Deno with react SSR cloes -->
+
+        <section data-auto-animate data-markdown>
+          <script type="text/template">
+            ## Reference
+            - 공식홈: https://deno.land/
+            - 라이언달 컨퍼런스: https://www.youtube.com/watch?v=M3BM9TB-8yA
+            - 라이언달 컨퍼런스: https://www.youtube.com/watch?v=z6JRlx5NC9E&t=419s
+            - 위키: https://namu.wiki/w/Deno
+            - 블로그: https://www.devpools.kr/2018/06/21/deno/
+            - 블로그: https://blog.ull.im/engineering/2019/04/14/deno-ryan-dahl-2019-04-04.html
+            - 블로그: https://ebbnflow.tistory.com/257
+          </script>
+        </section>
+
+        <section data-auto-animate>
+          <h2>Thank you</h2>
+          <h2>Q & A</h2>
+        </section>
+      </div>
+    </div>
+
+    <script src="../lib/revealjs/reveal.js"></script>
+    <script src="../lib/revealjs/plugin/notes/notes.js"></script>
+    <script src="../lib/revealjs/plugin/markdown/markdown.js"></script>
+    <script src="../lib/revealjs/plugin/highlight/highlight.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        center: true,
+        history: true,
+        controls: true,
+        progress: true,
+        touch: true,
+        transition: 'convex',
+        slideNumber: 'c/t',
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+  </body>
+</html>
