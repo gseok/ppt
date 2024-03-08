@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>bunjs</title>
+
+    <link rel="stylesheet" href="../lib/revealjs/reset.css">
+    <link rel="stylesheet" href="../lib/revealjs/reveal.css">
+    <link rel="stylesheet" href="../lib/revealjs/theme/league.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="../lib/revealjs/plugin/highlight/monokai.css">
+    <!-- custom class -->
+    <style>
+      .my_red { color: red; }
+      .my_orange { color: #f5a442; }
+      .my_purple { color: purple; }
+      .my_left { float: right; }
+      .my_ref { color: gray; font-size: 10px !important; display: block !important;  }
+      .my_small { font-size: small !important; }
+      .my_large { font-size: large !important; }
+      .my_section { height: 100%; overflow: hidden; }
+      .reveal img {
+        max-height: 450px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4,
+      .reveal h5,
+      .reveal h6 {
+        margin: 0 0 20px 0;
+        color: #eee8d5;
+        font-family: "League Gothic", Impact, sans-serif;
+        line-height: 0.9em;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        text-shadow: none;
+      }
+      .reveal table {
+        font-size: small;
+      }
+      li {
+        font-size: large;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- 시작 -->
+        <section data-auto-animate>
+          <h2>Bun</h2>
+          <image width="300" height="300" src='https://user-images.githubusercontent.com/709451/182802334-d9c42afe-f35d-4a7b-86ea-9985f73f20c3.png'></image>
+          <div>gseok.seo@gmail.com<br>March 09, 2024</div>
+        </section>
+
+        <!-- 들어가기 전에 -->
+        <section data-auto-animate>
+          <h3>들어가기 전에…!</h3>
+          <pre>
+            <code data-trim data-noescape>
+              cpp(1983)가 나왔을때
+              나는 갈아탓다.
+              c(1972)보다 좋다고 생각했기 때문이다.
+              
+              그다음 java(1996-01)가 나왔을때
+              나는 갈아탓다.
+              cpp보다 편했기 때문이다.
+              
+              그다음 javascript(1996-08)가 뜨고 있을때
+              나는 갈아탓다.
+              이거다 싶었다.
+              
+              bun(2023-09-08)이 출시되었다.
+              나는 갈아타야하는가?
+              각을 보자...!
+            </code>
+          </pre>
+          <aside class="notes">
+            우리가 새로운 기술을 계속 공부하는 이유
+          </aside>
+        </section>
+
+        <!-- 들어가기 전에 -->
+        <section data-auto-animate>
+          <h3>들어가기 전에…!</h3>
+          잘못하면, 최종 테크트리가 너무 빨리 올지도 모른다...
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <img src="./1.jpg">
+            <img src="./2.webp">
+          </div>
+          <small class="my_ref">출처: https://namu.wiki/w/어떤 IT 강국의 치킨집 사장님</small>
+          <aside class="notes">
+            우리가 새로운 기술을 계속 공부하는 이유
+          </aside>
+        </section>
+
+        <!-- Bun? -->
+        <section data-auto-animate>
+          <h3>Bun?</h3>
+          <div style="display: flex; justify-content: center; padding: 10px;">
+            <img src="./3.png">
+          </div>
+
+          <a class="my_large" onclick="document.getElementById('uk_bun').play()">UK /bʌn/
+            <audio id="uk_bun">
+                <source type="audio/mpeg" src="https://dictionary.cambridge.org/ko/media/%EC%98%81%EC%96%B4/uk_pron/u/ukb/ukbul/ukbulru016.mp3">
+                <source type="audio/ogg" src="https://dictionary.cambridge.org/ko/media/%EC%98%81%EC%96%B4/uk_pron_ogg/u/ukb/ukbul/ukbulru016.ogg">
+            </audio>
+          </a>
+          &nbsp;
+          <a class="my_large" onclick="document.getElementById('us_bun').play()">US /bʌn/
+            <audio id="us_bun">
+                <source type="audio/mpeg" src="https://dictionary.cambridge.org/ko/media/%EC%98%81%EC%96%B4/us_pron/b/bun/bun__/bun.mp3">
+                <source type="audio/ogg" src="https://dictionary.cambridge.org/ko/media/%EC%98%81%EC%96%B4/us_pron_ogg/b/bun/bun__/bun.ogg">
+            </audio>
+          </a>
+
+          <small class="my_ref">출처: https://dictionary.cambridge.org/ko/사전/영어/bun</small>
+          <aside class="notes">
+            Bun이란?, 번, 번느
+          </aside>
+        </section>
+
+        <!-- Bun? -->
+        <section data-auto-animate>
+          <h3>Bun?</h3>
+          <video data-autoplay width="600" controls autoplay loop>
+            <source src="./4.mov" type="video/mp4">
+          </video>
+          <small class="my_ref">출처: https://bun.sh/</small>
+          <aside class="notes">
+            Bun 기본 소개
+          </aside>
+        </section>
+
+        <!-- Bun? -->
+        <section data-auto-animate>
+          <!-- all in one !-->
+          <section data-auto-animate>
+            <h3>Bun?</h3>
+            <div style="display: flex; justify-content: center; padding: 10px;">
+              <img src="./5.png">
+            </div>
+            <div class="fragment fade-in" data-fragment-index="1">Wow!</div>
+            <div class="fragment fade-in" data-fragment-index="2">Why Wow?</div>
+
+            <aside class="notes">
+              Bun 기본 소개
+            </aside>
+          </section>
+
+          <!-- bun? - Wow? -->
+          <section data-auto-animate>
+            <h3>Bun? - Wow?</h3>
+            <div>
+              <div style="display: flex; justify-content: center; padding: 10px;">
+                <img src="./6.png">
+              </div>
+              <small class="my_ref">출처: https://developer.android.com/studio?hl=ko</small>
+              보통의 개발환경
+            </div>
+            <aside class="notes">
+              안드로이드 개발 환경
+            </aside>
+          </section>
+
+          <!-- bun? - Wow? -->
+          <section data-auto-animate>
+            <h3>Bun? - Wow?</h3>
+            <div>
+              <div style="display: flex; justify-content: center; padding: 10px;">
+                <img src="./7.png">
+              </div>
+              <small class="my_ref">출처: https://learn.microsoft.com/en-us/visualstudio/ide/create-new-project?view=vs-2022</small>
+              보통의 프로젝트 초기 설정
+            </div>
+            <aside class="notes">
+              프로젝트 위자드
+            </aside>
+          </section>
+
+          <!-- bun? - Wow? -->
+          <section data-auto-animate>
+            <h3>Bun? - Wow?</h3>
+            <div>
+              <div style="display: flex; justify-content: center; padding: 10px;">
+                <img src="./8.png">
+              </div>
+              web 개발
+            </div>
+            <aside class="notes">
+              - web 개발 메모장
+              - 과장되긴 하였으나 핵심은, web의 개발은 어떤 일관된(정형화된) 통합개발 환경이 아직도 미진하다.
+              - 기존에는 각각의 기능들 역시 미진하였으나. 현재는 많이 발전된 상태이다.
+              - 각각의 기능: 프로젝트 스케폴딩, 빌드, 배포, 모듈화, 패키지 관리, 유닛 테스트 등
+            </aside>
+          </section>
+
+          <!-- bun외 번외 -->
+          <section data-auto-animate>
+            <h3>Bun외 - 번외</h3>
+            <div class="fragment" data-fragment-index="1">web(javascript)에서 빌드란 무었일까?</div>
+            <div class="fragment" data-fragment-index="2">번들링은? 런타임은? 패키지 매니저는?</div>
+            <div class="fragment" data-fragment-index="3">
+              <div style="display: flex; justify-content: center; padding: 10px;">
+                <img src="./9.png">
+              </div>
+              <small class="my_ref">출처: <a onclick="window.open('https://www.seoul.go.kr/main/index.jsp')">https://www.seoul.go.kr/main/index.jsp</a></small>
+            </div>
+            <aside class="notes">
+              - web에서 통합개발환경이 이제서 갖추어져가는 걸까?
+            </aside>
+          </section>
+        </section>
+
+        <!-- bun의 목표 -->
+        <section data-auto-animate>
+          <h3>Bun Goal</h3>
+          <div class="fragment highlight-current-red" onclick="window.open('https://twitter.com/jarredsumner/status/1499225725492076544')">Speed(4x faster than Node.js)</div>
+          <div class="fragment highlight-current-red">TypeScript & JSX support</div>
+          <div class="fragment highlight-current-red">ESM & CommonJS compatibility</div>
+          <div class="fragment highlight-current-red">Web-standard APIs</div>
+          <div class="fragment highlight-current-red">Node.js compatibility</div>
+          <aside class="notes">
+            - 번의 목표
+            - speed: <span>Bun processes start <a onclick="window.open('https://twitter.com/jarredsumner/status/1499225725492076544')">4x faster than Node.js</a></span>
+            - TypeScript & JSX support: You can directly execute .jsx, .ts, and .tsx files; Bun's transpiler converts these to vanilla JavaScript before execution.
+            - ESM & CommonJS compatibility: The world is moving towards ES modules (ESM), but millions of packages on npm still require CommonJS. Bun recommends ES modules, but supports CommonJS.
+            - Web-standard APIs**. Bun implements standard Web APIs like `fetch`, `WebSocket`, and `ReadableStream`. Bun is powered by the JavaScriptCore engine, which is developed by Apple for Safari, so some APIs like **`[Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers)`**and**`[URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)`** directly use **[Safari's implementation](https://github.com/oven-sh/bun/blob/HEAD/src/bun.js/bindings/webcore/JSFetchHeaders.cpp)**.
+            - Node.js compatibility. In addition to supporting Node-style module resolution, Bun aims for full compatibility with built-in Node.js globals (process, Buffer) and modules (path, fs, http, etc.) This is an ongoing effort that is not complete. Refer to the compatibility page for the current status.
+          </aside>
+        </section>
+
+        <!-- bun의 목표 -->
+        <section data-auto-animate>
+          <h3>Bun Goal</h3>
+          <div>The long-term goal is to be a cohesive, <b class="my_red">infrastructural toolkit</b> for building apps with JavaScript/TypeScript</div>
+          <aside class="notes">
+            - 번의 목표: 최종적으로 infrastructural 가 되는것
+          </aside>
+        </section>
+
+        <!-- bun - runtime (basic) -->
+        <section data-auto-animate>
+          <!-- bun - runtime - js runtime -->
+          <section data-auto-animate>
+            <h3>Bun - runtime</h3>
+            Javascript Runtime
+            <div class="fragment">
+              <li>Browser</li>
+              <img src="./10.png">
+              <small class="my_ref">출처: https://www.ecreativeworks.com/blog/site-different-browsers</small>
+            </div>
+  
+            <div class="fragment">
+              <li>Not Browser</li>
+              <img src="./11.png">
+              <small class="my_ref">출처: https://codesphere.com/articles/bun-the-new-javascript-runtime-competing-with-deno-and-node</small>
+            </div>
+            <aside class="notes">
+              - js runtime
+            </aside>
+          </section>
+
+          <!-- bun - runtime - js engine -->
+          <section data-auto-animate>
+            <h3>Bun - runtime</h3>
+            <div>Javascript Engine</div>
+            <img src="./12.jpeg">
+            <small class="my_ref">출처: https://dev.to/mihirverma7781/inside-javascript-engine-373</small>
+          </section>
+        </section>
+
+        <!-- bun - runtime -->
+        <section data-auto-animate>
+          <!-- bun - runtime 구성 -->
+          <section data-auto-animate>
+            <h3>Bun - runtime</h3>
+            <img src="./13.png">
+            <li>bun - zig - webkit(javascriptCore)</li>
+            <li>node - js - v8</li>
+            <li>deno - rust - v8</li>
+            <aside class="notes">
+              - bun은 webkit 기반반에 + zig언어로 구축하였다.
+            </aside>
+          </section>
+
+          <!-- bun - runtime - node.js compatibility -->
+          <section>
+            <h3>Bun - runtime - node.js compatibility</h3>
+            <img src="./14.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#node-js-compatibility</small>
+            Full-stack applications built with Next.js, Remix, Nuxt, Astro, SvelteKit, Nest, SolidStart, and Vite work in Bun.
+
+            <aside class="notes">
+              - built-in modules like `fs`, `path`, and `net`,
+              - globals like `__dirname` and `process`,
+              - and the Node.js module resolution algorithm. (e.g. `node_modules`)
+              - https://bun.sh/nodejs
+            </aside>
+          </section>
+
+          <!-- bun - runtime - speed -->
+          <section>
+            <h3>Bun - runtime - speed</h3>
+            <img src="./15.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#speed</small>
+            starting up to <a onclick="window.open('https://twitter.com/jarredsumner/status/1499225725492076544')">4x faster</a> than Node.js
+            <aside class="notes"></aside>
+          </section>
+
+          <!-- bun - runtime - file support -->
+          <section data-markdown>
+            <textarea data-template>
+              ### Bun - runtime - file support
+              - **[TypeScript and JSX support](https://bun.sh/blog/bun-v1.0#typescript-and-jsx-support)**
+
+              ```bash
+              $ bun index.ts
+              $ bun index.jsx
+              $ bun index.tsx
+              ```
+              - **[WASM](https://bun.sh/docs/runtime/loaders#wasm)**
+
+              ```bash
+              $ bun ./my-wasm-app.wasm
+              # if the filename doesn't end with ".wasm"
+              $ bun run ./my-wasm-app.whatever
+              ```
+
+              - [SQLite](https://bun.sh/docs/runtime/loaders#sqlite)
+
+              ```tsx
+              import db from "./my.db" with {type: "sqlite"};
+              console.log(db.query("select * from users LIMIT 1").get());
+              ```
+
+              지원 파일 - ts, js, jsx, tsx, text, json, toml, wasm, sqllite(db)
+            </textarea>
+
+            <aside class="notes">
+              - ts -> js나 tsnode없이 여러 파일을 runtime에서 곧바로 지원한다.
+            </aside>
+          </section>
+
+          <!-- bun - runtime - Bun APIs -->
+          <section>
+            <h3>Bun - runtime - Bun APIs</h3>
+            <img src="./16.png">
+            <small class="my_ref">출처: https://bun.sh/docs/runtime/bun-apis</small>
+            <aside class="notes">
+              - bun이 자체적으로 제공하는 host객체(api)들이 매우 많이 있다
+            </aside>
+          </section>
+
+          <!-- bun - runtime - Web APIs -->
+          <section>
+            <h3>Bun - runtime - Web APIs</h3>
+            <img src="./17.png">
+            <small class="my_ref">출처: https://bun.sh/docs/runtime/web-apis</small>
+            <aside class="notes">
+              - bun은 기본 web api 호환을 지원한다.
+            </aside>
+          </section>
+
+          <!-- bun - runtime - Watch mode -->
+          <section>
+            <h3>Bun - runtime - Watch Mode</h3>
+            <img src="./18.gif">
+            <small class="my_ref">출처: https://bun.sh/docs/runtime/hot</small>
+            <pre>
+              <code data-trim data-noescape>
+                $ bun --watch test
+              </code>
+            </pre>
+            <aside class="notes">
+              - bun은 기본 hmr 기능을 제공한다.
+            </aside>
+          </section>
+
+          <!-- bun - runtime - etc -->
+          <section data-markdown>
+            <textarea data-template>
+              ### Bun - runtime - etc
+
+              - **[Environment variables](https://bun.sh/docs/runtime/env)**
+              - **[Node.js compatibility](https://bun.sh/docs/runtime/nodejs-apis)**
+              - **[Plugins](https://bun.sh/docs/runtime/plugins)**
+              - **[Module resolution](https://bun.sh/docs/runtime/modules)**
+              - **[Auto-install](https://bun.sh/docs/runtime/autoimport)**
+              - **[Debugger](https://bun.sh/docs/runtime/debugger)**
+            </textarea>
+          </section>
+        </section>
+
+        <!-- bun - package manager (basic) -->
+        <section data-auto-animate>
+          <h3>Bun - package manager</h3>
+          Javascript Package manager
+          <img src="./19.png">
+          <small class="my_ref">출처: https://blog.logrocket.com/javascript-package-managers-compared</small>
+          <div class="my_large">npm 느리다! yarn 도 느리다! pnpm 어? 쓸만한데?</div>
+
+          <aside class="notes">
+            - js에도 npm을 태동으로 packages을 관리하는 package manager가 생겼다.
+            - 여러 문제가 있어 새로운게 계속 나오고 있는 실정이다.
+          </aside>
+        </section>
+
+        <!-- bun - package manager -->
+        <section data-auto-animate>
+          <!-- bun - package manager 기본 -->
+          <section>
+            <h3>Bun - package manager</h3>
+            <img src="./20.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#bun-is-a-package-manager</small>
+            <pre>
+              <code data-trim data-noescape>
+                $ bun install
+                $ bun add <package> [--dev|--production|--peer]
+                $ bun remove <package>
+                $ bun update <package>
+              </code>
+            </pre>
+          </section>
+          
+          <!-- bun - package manager speed -->
+          <section>
+            <h3>Bun - package manager - install speeds</h3>
+            <img src="./21.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#install-speeds</small>
+          </section>
+          <!-- bun - package manager speed -->
+          <section>
+            <h3>Bun - package manager - install speeds</h3>
+            <img src="./22.png">
+            <small class="my_ref">출처: https://bun.sh/docs/cli/install</small>
+          </section>
+
+          <!-- bun - package manager running scripts -->
+          <section>
+            <h3>Bun - package manager - running scripts</h3>
+            <div style="display: flex; justify-content: center; padding: 10px;">
+              <img src="./23.gif">
+              <img src="./24.gif">
+            </div>
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#running-scripts</small>
+          </section>
+          <!-- bun - package manager running scripts -->
+          <section>
+            <h3>Bun - package manager - running scripts</h3>
+            <img src="./25.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#running-scripts</small>
+          </section>
+        </section>
+
+        <!-- bun - bundler (basic) -->
+        <section data-auto-animate>
+          <!-- bun - bundler 기본 -->
+          <section>
+            <h3>Bun - bundler</h3>
+            <div>Bundler?</div>
+            <img src="./26.webp">
+            <small class="my_ref">출처: https://snipcart.com/blog/javascript-module-bundler</small>
+          </section>
+
+          <!-- bun - bundler - web에서 bundle -->
+          <section>
+            <h3>Bun - bundler</h3>
+            Not bundle
+            <img src="./27.png">
+            <small class="my_ref">출처: https://snipcart.com/blog/javascript-module-bundler</small>
+          </section>
+          <!-- bun - bundler - web에서 bundle -->
+          <section>
+            <h3>Bun - bundler</h3>
+            bundle
+            <img src="./28.png">
+            <small class="my_ref">출처: https://snipcart.com/blog/javascript-module-bundler</small>
+          </section>
+
+          <!-- bun - bundler - web에서 bundle -->
+          <section>
+            <h3>Bun - bundler</h3>
+            <img src="./29.png">
+            <aside class="notes">
+              - 현재 web에서 사용되는 bundler
+            </aside>
+          </section>
+          <!-- bun - bundler - web에서 bundle -->
+          <section>
+            <h3>Bun - bundler</h3>
+            <img src="./30.png">
+            <aside class="notes">
+              - 현재 web에서 사용되는 bundler
+            </aside>
+          </section>
+        </section>
+
+        <!-- bun - bundler -->
+        <section data-auto-animate>
+          <!-- bun - bundler - 기본 -->
+          <section>
+            <h3>Bun - bundler</h3>
+            <pre>
+              <code data-trim data-noescape>
+                $ bun build ./index.tsx --outdir ./build
+              </code>
+            </pre>
+            <pre>
+              <code data-trim data-noescape>
+                await Bun.build({
+                  entrypoints: ['./index.tsx'],
+                  outdir: './out',
+                  minify: {
+                    whitespace: true,
+                    identifiers: true,
+                    syntax: true,
+                  },
+                })
+              </code>
+            </pre>
+            <li>Bun's bundler API is inspired heavily by esbuild</li>
+            <aside class="notes">
+              - cli로 구동 가능하고, programming 형태로 구동도 가능한 구조
+            </aside>
+          </section>
+
+          <!-- bun - bundler speed -->
+          <section>
+            <h3>Bun - bundler - speed</h3>
+            <img src="./31.png">
+            <small class="my_ref">출처: https://bun.sh/docs/bundler, three.js benchmark</small>
+          </section>
+
+          <!-- bun - bundler plugin -->
+          <section>
+            <h3>Bun - bundler - plugin</h3>
+            <pre>
+              <code data-trim data-noescape>
+                import type { BunPlugin } from "bun";
+                const myPlugin: BunPlugin = {
+                  name: "my-plugin",
+                  setup(builder) {
+                    builder.onResolve({ /* onResolve.options */ }, args => {
+                        return {
+                          /* onResolve.results */
+                        };
+                      },
+                    );
+                    builder.onLoad({ /* onLoad.options */ }, args => {
+                        return {
+                          /* onLoad.results */
+                        };
+                      },
+                    );
+                  },
+                };
+              </code>
+            </pre>
+            <aside class="notes">
+              - plugin구축 가능한 구조
+            </aside>
+          </section>
+        </section>
+
+        <!-- bun - test runner (basic) -->
+        <section data-auto-animate>
+          <!-- bun - test runner (js) -->
+          <section>
+            <h3>Bun - test runner</h3>
+            <div>Web의 test runner</div>
+            <img src="./32.png">
+            <small class="my_ref">출처: https://2021.stateofjs.com/en-US/libraries/testing/</small>
+            <aside class="notes">
+              - web의 test runner들
+            </aside>
+          </section>
+          <!-- bun - test runner (js) -->
+          <section>
+            <h3>Bun - test runner</h3>
+            <div>Web의 test runner</div>
+            <img src="./33.png">
+            <small class="my_ref">출처: https://raygun.com/blog/javascript-unit-testing-frameworks/</small>
+            <aside class="notes">
+              - web의 test runner들
+            </aside>
+          </section>
+        </section>
+
+        <!-- bun - test runner -->
+        <section data-auto-animate>
+          <!-- bun - test runner basic -->
+          <section data-markdown>
+            <textarea data-template>
+              ### Bun - Test runner
+              Bun ships with a fast, built-in, Jest-compatible test runner. Tests are executed with the Bun runtime, and support the following features.
+
+              - TypeScript and JSX
+              - Lifecycle hooks
+              - Snapshot testing
+              - UI & DOM testing
+              - Watch mode with `-watch`
+              - Script pre-loading with `-preload`
+            </textarea>
+          </section>
+
+          <!-- bun - test runner - using -->
+          <section>
+            <h3>Bun - Test runner</h3>
+            <pre>
+              <code data-trim data-noescape>
+                /* Bun has a built-in testing module bun:test that is fully Jest-compatible. */
+                import { test, expect, mock } from "bun:test";
+                const random = mock(() => Math.random());
+
+                test("random", () => {
+                  const val = random();
+                  expect(val).toBeGreaterThan(0);
+                  expect(random).toHaveBeenCalled();
+                  expect(random).toHaveBeenCalledTimes(1);
+                });
+              </code>
+            </pre>
+            <pre>
+              <code data-trim data-noescape>
+                $ bun test
+              </code>
+            </pre>
+          </section>
+
+          <!-- bun - test runner - speed -->
+          <section>
+            <h3>Bun - Test runner - speed</h3>
+            <img src="./34.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#bun-is-a-test-runner</small>
+            <li>In a benchmark against the test suite for zod Bun was 13x faster than Jest and 8x faster than than Vitest.</li>
+          </section>
+          <section>
+            <h3>Bun - Test runner - speed</h3>
+            <img src="./35.png">
+            <small class="my_ref">출처: https://bun.sh/docs/cli/test</small>
+          </section>
+
+          <!-- bun test runner - git action -->
+          <section>
+            <h3>Bun - Test runner - git action</h3>
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#bun-is-a-test-runner</small>
+            <img src="./36.png">
+            <img src="./37.png">
+
+            <aside class="notes">
+              - unit test을 bun으로 바꾸면 성능 향상이 있다
+              - To get started, you can speed up your CI using bun test. In Github Actions, use the official oven-sh/setup-bun action.
+              - 공식 bun test git action - https://github.com/oven-sh/setup-bun
+            </aside>
+          </section>
+        </section>
+
+        <!-- bun - package runner (basic) -->
+        <section data-auto-animate>
+          <!-- bun - package runner? -->
+          <section>
+            <h3>Bun - package runner</h3>
+            <div>package runner?</div>
+            <img src="./38.png">
+            <small class="my_ref">출처: https://stackoverflow.com/questions/50605219/difference-between-npx-and-npm</small>
+          </section>
+
+          <!-- bun - package runner? -->
+          <section>
+            <h3>Bun - package runner</h3>
+            <div>package runner?</div>
+            <li>npm</li>
+            <pre>
+              <code data-trim data-noescape>
+                // package.json
+                {
+                  "name": "whatever",
+                  "version": "1.0.0",
+                  "scripts": {
+                    "some-package": "some-package"
+                  }
+                }
+              </code>
+            </pre>
+            <pre>
+              <code data-trim data-noescape>
+                $ npm run some-package
+              </code>
+            </pre>
+            <li>npx</li>
+            <pre>
+              <code data-trim data-noescape>
+                $ npx create-react-app my-app
+              </code>
+            </pre>
+          </section>
+
+          <!-- bun - package runner? -->
+          <section>
+            <h3>Bun - package runner</h3>
+            <div>package runner?</div>
+            <img src="./39.gif">
+            <small class="my_ref">출처: https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b</small>
+          </section>
+        </section>
+
+        <!-- bun - package runner (bunx) -->
+        <section data-auto-animate>
+          <h3>Bun - package runner</h3>
+          <li>bunx</li>
+          <pre>
+            <code data-trim data-noescape>
+              {
+                // ... other fields
+                "name": "my-cli",
+                "bin": {
+                  "my-cli": "dist/index.js"
+                }
+              }
+            </code>
+          </pre>
+          <pre>
+            <code data-trim data-noescape>
+              $ bunx my-cli
+            </code>
+          </pre>
+        </section>
+
+        <!-- bun - etc -->
+        <section data-auto-animate>
+          <!-- bun - etc - win -->
+          <section>
+            <h3>Bun - etc - window</h3>
+            <img src="./40.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0#bun-more-thing</small>
+            <li>Windows Subsystem for Linux 내에서 bun 지원 계획이 있다</li>
+            <li><a onclick="window.open('https://bun.sh/docs/project/building-windows')">https://bun.sh/docs/project/building-windows</a></li>
+          </section>
+
+          <!-- bun - etc - License -->
+          <section>
+            <h3>Bun - etc - license</h3>
+            <li>Bun itself is MIT-licensed.</li>
+            <img src="./41.png">
+            <small class="my_ref">출처: https://bun.sh/docs/project/licensing</small>
+          </section>
+
+          <!-- bun - etc - polyfills -->
+          <section>
+            <h3>Bun - etc - polyfills</h3>
+            <img src="./42.png">
+            <small class="my_ref">출처: https://bun.sh/docs/project/licensing#polyfills</small>
+          </section>
+
+          <!-- bun - etc - release -->
+          <section>
+            <h3>Bun - etc - release</h3>
+            <div class="my_large">최신버전 - v1.0.30 (2024.03.07기준)</div>
+            <img src="./43.png">
+            <small class="my_ref">출처: https://bun.sh/blog/bun-v1.0.30</small>
+          </section>
+          <!-- bun - etc - release -->
+          <section>
+            <h3>Bun - etc - release</h3>
+            <div class="my_large">매우 active 한 프로젝트이다.!!!</div>
+            <img src="./44.png">
+            <small class="my_ref">출처: https://bun.sh/blog</small>
+            <aside class="notes">
+              - https://github.com/oven-sh/bun/releases
+            </aside>
+          </section>
+
+          <!-- bun - etc - doc -->
+          <section>
+            <h3>Bun - etc - doc</h3>
+            <div class="my_large">매우 문서화가 잘되어 있는 편이다.!!!</div>
+            <img src="./45.png">
+            <small class="my_ref">출처: https://bun.sh/guides</small>
+          </section>
+        </section>
+
+        <!-- bun - final -->
+        <section data-auto-animate>
+          <h3>Bun - 결론</h3>
+          <img src="./46.png">
+          <li>치킨 트리 빨리가지 않으려면...</li>
+        </section>
+
+        <!-- reference -->
+        <section data-auto-animate data-markdown>
+          <script type="text/template">
+            ## Reference
+            - bun -  [https://bun.sh/docs](https://bun.sh/docs#design-goals)
+            - bun 1.0 - https://bun.sh/blog/bun-v1.0
+            - bun js engine - [https://en.wikipedia.org/wiki/Bun_(software)](https://en.wikipedia.org/wiki/Bun_(software))
+            - js 엔진 - https://dev.to/mihirverma7781/inside-javascript-engine-373
+            - js 번들러 - https://snipcart.com/blog/javascript-module-bundler
+            - js번들러 붕당 - https://yozm.wishket.com/magazine/detail/1261/
+            - js 테스트 - https://raygun.com/blog/javascript-unit-testing-frameworks/
+            - bun benchmark - https://refine.dev/blog/bun-js-vs-node/#benchmarking-bun
+            - zig (programming language) - [https://en.wikipedia.org/wiki/Zig_(programming_language)](https://en.wikipedia.org/wiki/Zig_%28programming_language%29)
+            - package-runner
+                - https://stackoverflow.com/questions/50605219/difference-between-npx-and-npm
+                - https://blog.npmjs.org/post/162869356040/introducing-npx-an-npm-package-runner
+          </script>
+        </section>
+
+        <!-- tech topic -->
+        <section data-auto-animate data-markdown>
+          <script type="text/template">
+            ## Technical topics
+            - web package manager(npm, yarn, pnpm)
+            - language - zig, rust
+            - js engine - webkit, v8
+            - web module system - esm, amd, umd
+            - web ORM
+            - FFI(Foreign function interface)
+            - [WebKit Inspector Protocol](https://github.com/oven-sh/bun/blob/main/packages/bun-vscode/types/jsc.d.ts)
+            - [javascript package manager](https://blog.logrocket.com/javascript-package-managers-compared/)
+            - [node.js 을 하면서 10가지 후회 - 라이언 달](https://www.youtube.com/watch?v=M3BM9TB-8yA)
+            - Windows Subsystem for Linux
+          </script>
+        </section>
+
+        <!-- q & a -->
+        <section data-auto-animate>
+          <h2>Thank you</h2>
+          <h2>Q & A</h2>
+        </section>
+      </div>
+    </div>
+
+    <script src="../lib/revealjs/reveal.js"></script>
+    <script src="../lib/revealjs/plugin/notes/notes.js"></script>
+    <script src="../lib/revealjs/plugin/markdown/markdown.js"></script>
+    <script src="../lib/revealjs/plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        history: true,
+        controls: true,
+        progress: true,
+        touch: true,
+        transition: 'convex',
+        slideNumber: 'c/t',
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+  </body>
+</html>
